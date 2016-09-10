@@ -1,4 +1,4 @@
-package famaf.unc.edu.ar.activitiesassignment;
+package ar.edu.unc.famaf.redditreader;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
