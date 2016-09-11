@@ -1,24 +1,33 @@
-# Activities Assignment | Android Reddit Reader - Step 1
+# Android Reddit Reader
 
-## Contexto
+## Context
 
-El presente curso ha sido diseñado por [Diego Mercado](https://github.com/mercadodiego) para la materia optativa _"Programación en Android: Introducción"_ de la Facultad de Astronomía, Matemática y Física (FaMAF) perteneciente a la Universidad Nacional de Córdoba, Argentina. 
+This project is being carried out by [Mauricio Guignard](https://github.com/mauguignard) for elective _"Android Programming: Introduction"_ of the Faculty of Mathematics, Astronomy and Physics (FaMAF), UNC, Argentina dictated by Professor [Diego Mercado](https://github.com/mercadodiego).
 
-## Objetivos
+## Activities Assignment | Step 1
 
-* Conocer la comunicación entre Actividades y su ciclo de vida
+### Objetives
 
-## Enunciado
+* Learn the communication between activities and their lifecycle
 
-* Descargar el proyecto desde https://github.com/mercadodiego/ActivitiesAssignment
-* En la acción del Sign inLogin invocar LoginActivity
-* Una vez finalizado, debera mostrar el nombre del usuario logueado en pantalla
+### Statement
 
-## Condiciones de entrega
+* Download the project from https://github.com/mercadodiego/ActivitiesAssignment
+* Pressing "Sign in or register" should invoke LoginActivity.
+* Once logged in, the user name should be displayed on the screen
 
-* Se debe trabajar en un repositorio GIT propio. Mayor información en: https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes
-* La entrega consistirá en indicar en que TAG fue subido el mismo 
-* No debe contener carpetas/archivos autogenerados
-* Debe compilar. De lo contrario no será considerada como una entrega valida
-* Debe desarrollarse usando Android Studio 2.1.3 (o cualquier versión superior del canal estable)
-* Conservar Minimum SDK: API Level 15 y Target SDK: API Level 23 
+## LayoutAssignment | Step 2
+
+###Objetives
+
+* Learn the basic principles of Layouts, View and View Groups on Android
+* Learn to modify and add graphics and text resources to the application
+
+### Statement
+
+* Download the project from https://github.com/mercadodiego/LayoutAssignment
+* Add Spanish translation
+* Change application name to "Reddit Reader" in English and "Lector de Reddit" in Spanish
+* Change application icon to ./images/reddit_icon.png
+* Change package name to ar.edu.unc.famaf.redditreader
+* Add a subreddit item layout as shown in ./images/screenshot1.jpg
