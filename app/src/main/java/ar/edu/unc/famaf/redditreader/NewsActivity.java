@@ -20,6 +20,21 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        NewsActivityFragment newsfragment = (NewsActivityFragment)
+                getSupportFragmentManager().findFragmentById(R.id.news_activity_fragment_id);
+
+        TextView subredditName = (TextView) findViewById(R.id.subredditName);
+        subredditName.setText("r/todayilearned");
+
+        TextView subredditLastUpdated = (TextView) findViewById(R.id.subredditLastUpdated);
+        subredditLastUpdated.setText(String.format(getString(R.string.hours_ago), 4));
+
+        TextView subredditDescription = (TextView) findViewById(R.id.subredditDescription);
+        subredditDescription.setText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec");
+
+        TextView subreditNoComments = (TextView) findViewById(R.id.subreditNoComments);
+        subreditNoComments.setText(String.format(getString(R.string.no_comments), 2112));
     }
 
     @Override

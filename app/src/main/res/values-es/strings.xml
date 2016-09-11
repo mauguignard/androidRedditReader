@@ -13,4 +13,6 @@
     <string name="prompt_password">Contraseña (opcional)</string>
     <string name="title_activity_news">Lector de Reddit</string>
     <string name="no_user_logged">Ningún usuario ha iniciado sesión</string>
+    <string name="hours_ago">Hace %1$d hs</string>
+    <string name="no_comments">%1$d comentarios</string>
 </resources>
