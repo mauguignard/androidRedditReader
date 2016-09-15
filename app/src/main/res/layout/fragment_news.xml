@@ -36,9 +36,9 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:id="@+id/imageView"
-            android:background="@mipmap/ic_launcher"
             android:layout_gravity="top"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView2"
-                    android:background="@android:drawable/sym_action_chat" />
+                    android:src="@android:drawable/sym_action_chat" />
 
                 <TextView
                     android:layout_width="wrap_content"
