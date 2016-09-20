@@ -12,100 +12,11 @@
     android:foregroundTint="@color/abc_tint_default">
 
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ListView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/no_user_logged"
-        android:id="@+id/loginStatusTextView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/listView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:gravity="center_vertical"
-        android:id="@+id/subredditItem"
-        android:layout_alignParentEnd="false">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:id="@+id/subredditIcon"
-            android:background="@mipmap/ic_launcher"
-            android:layout_gravity="top"
-            android:layout_marginTop="10dp" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_weight="1">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/subredditName"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/hours_ago"
-                    android:id="@+id/subredditLastUpdated"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/subredditDescription" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/commentsBlock">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView2"
-                    android:background="@android:drawable/sym_action_chat" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_comments"
-                    android:id="@+id/subreditNoComments"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <ImageButton
-            android:layout_width="10dp"
-            android:layout_height="17dp"
-            android:id="@+id/rightArrowButton"
-            android:background="@drawable/ic_arrow_drop_right"
-            android:layout_marginLeft="15dp" />
-
-    </LinearLayout>
-
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
