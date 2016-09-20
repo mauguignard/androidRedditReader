@@ -55,7 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/subredditDescription" />
+            android:id="@+id/subredditDescription"
+            android:layout_marginBottom="2dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -64,17 +65,17 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/imageView2"
-                android:src="@android:drawable/sym_action_chat" />
+                android:src="@drawable/ic_comment_icon"
+                android:layout_height="16dp"
+                android:layout_marginTop="2dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_comments"
                 android:id="@+id/subreditNoComments"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp" />
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
 
