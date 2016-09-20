@@ -53,27 +53,27 @@ public class subredditAdapter extends ArrayAdapter<subredditModel> {
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.subreddit_list_item, parent, false);
-
-            subredditModel sm = subredditList.get(position);
-
-            TextView subredditName = (TextView) convertView.findViewById(R.id.subredditName);
-            TextView subredditDescription = (TextView) convertView.findViewById(R.id.subredditDescription);
-            TextView subredditNoComments = (TextView) convertView.findViewById(R.id.subreditNoComments);
-            TextView subredditDate = (TextView) convertView.findViewById(R.id.subredditLastUpdated);
-            ImageView subredditIcon = (ImageView) convertView.findViewById(R.id.subredditIcon);
-
-            subredditName.setText(sm.getName());
-            subredditDescription.setText(sm.getDescription());
-            subredditNoComments.setText(String.format(context.getResources().getString(R.string.no_comments), sm.getNoComments()));
-            DownloadImageTask imageDownloader = new DownloadImageTask(subredditIcon);
-            imageDownloader.execute(sm.getIconSrc());
-
-            long time = sm.getDate();
-            long now = System.currentTimeMillis();
-            CharSequence relativeTimeStr = DateUtils.getRelativeTimeSpanString(time,
-                    now, DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
-            subredditDate.setText(relativeTimeStr);
         }
+
+        subredditModel sm = subredditList.get(position);
+
+        TextView subredditName = (TextView) convertView.findViewById(R.id.subredditName);
+        TextView subredditDescription = (TextView) convertView.findViewById(R.id.subredditDescription);
+        TextView subredditNoComments = (TextView) convertView.findViewById(R.id.subreditNoComments);
+        TextView subredditDate = (TextView) convertView.findViewById(R.id.subredditLastUpdated);
+        ImageView subredditIcon = (ImageView) convertView.findViewById(R.id.subredditIcon);
+
+        subredditName.setText(sm.getName());
+        subredditDescription.setText(sm.getDescription());
+        subredditNoComments.setText(String.format(context.getResources().getString(R.string.no_comments), sm.getNoComments()));
+        DownloadImageTask imageDownloader = new DownloadImageTask(subredditIcon);
+        imageDownloader.execute(sm.getIconSrc());
+
+        long time = sm.getDate();
+        long now = System.currentTimeMillis();
+        CharSequence relativeTimeStr = DateUtils.getRelativeTimeSpanString(time,
+                now, DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
+        subredditDate.setText(relativeTimeStr);
 
         return convertView;
     }
