@@ -39,8 +39,8 @@
                 tools:text="r/sample"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@id/subredditLastUpdated"
-                android:layout_toStartOf="@id/subredditLastUpdated"
+                android:layout_toLeftOf="@+id/subredditLastUpdated"
+                android:layout_toStartOf="@+id/subredditLastUpdated"
                 android:maxLines="1"
                 android:ellipsize="end"/>
 
