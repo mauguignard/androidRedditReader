@@ -60,10 +60,10 @@ public class Backend {
         for (int i = 0; i < 5; i++) {
             PostModel item = new PostModel();
             item.setSubreddit(subredditNames[i]);
-            item.setDescription(subredditDescriptions[i]);
+            item.setTitle(subredditDescriptions[i]);
             item.setNoComments(subredditNoComments[i]);
-            item.setDate(subredditDates[i]);
-            item.setIconURL(subredditIcons[i]);
+            item.setCreated(subredditDates[i]);
+            item.setThumbnail(subredditIcons[i]);
             mLstPostsModel.add(item);
         }
     }

@@ -61,11 +61,11 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         final ImageView subredditIcon = (ImageView) convertView.findViewById(R.id.subredditIcon);
 
         subredditName.setText(sm.getSubreddit());
-        subredditDescription.setText(sm.getDescription());
+        subredditDescription.setText(sm.getTitle());
         subredditNoComments.setText(String.format(context.getResources().getString(R.string.no_comments), sm.getNoComments()));
         final Picasso picasso = Picasso.with(context);
         picasso.setIndicatorsEnabled(true);
-        picasso.load(sm.getIconURL()).networkPolicy(NetworkPolicy.OFFLINE)
+        picasso.load(sm.getThumbnail()).networkPolicy(NetworkPolicy.OFFLINE)
                 .into(subredditIcon, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -73,11 +73,11 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
                     @Override
                     public void onError() {
-                        picasso.load(sm.getIconURL()).into(subredditIcon);
+                        picasso.load(sm.getThumbnail()).into(subredditIcon);
                     }
                 });
 
-        long time = sm.getDate();
+        long time = sm.getCreated();
         long now = System.currentTimeMillis();
         CharSequence relativeTimeStr = DateUtils.getRelativeTimeSpanString(time,
                 now, DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);

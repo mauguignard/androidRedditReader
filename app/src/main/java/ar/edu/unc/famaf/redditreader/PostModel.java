@@ -4,49 +4,131 @@ package ar.edu.unc.famaf.redditreader;
  * Created by mauguignard on 9/20/16.
  */
 public class PostModel {
+    private String mDomain;
     private String mSubreddit;
-    private String mDescription;
+    private String mAuthor;
+    private String mName;
+    private int mScore;
+    private boolean mOver18;
+    private String mThumbnail;
+    private String mPermalink;
+    private long mCreated;
+    private String mURL;
+    private String mTitle;
     private int mNoComments;
-    private long mDate;
-    private String mIconURL;
+    private int mDowns;
+    private int mUps;
+
+
+    public String getDomain() {
+        return mDomain;
+    }
+
+    public void setDomain(String domain) {
+        mDomain = domain;
+    }
 
     public String getSubreddit() {
         return mSubreddit;
     }
 
-    public void setSubreddit(String name) {
-        this.mSubreddit = name;
+    public void setSubreddit(String subreddit) {
+        mSubreddit = subreddit;
     }
 
-    public String getDescription() {
-        return mDescription;
+    public String getAuthor() {
+        return mAuthor;
     }
 
-    public void setDescription(String description) {
-        this.mDescription = description;
+    public void setAuthor(String author) {
+        mAuthor = author;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public int getScore() {
+        return mScore;
+    }
+
+    public void setScore(int score) {
+        mScore = score;
+    }
+
+    public boolean isOver18() {
+        return mOver18;
+    }
+
+    public void setOver18(boolean over18) {
+        mOver18 = over18;
+    }
+
+    public String getThumbnail() {
+        return mThumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        mThumbnail = thumbnail;
+    }
+
+    public String getPermalink() {
+        return mPermalink;
+    }
+
+    public void setPermalink(String permalink) {
+        mPermalink = permalink;
+    }
+
+    public long getCreated() {
+        return mCreated;
+    }
+
+    public void setCreated(long created) {
+        mCreated = created;
+    }
+
+    public String getURL() {
+        return mURL;
+    }
+
+    public void setURL(String URL) {
+        mURL = URL;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
     public int getNoComments() {
         return mNoComments;
     }
 
-    public void setNoComments(int mNoComments) {
-        this.mNoComments = mNoComments;
+    public void setNoComments(int noComments) {
+        mNoComments = noComments;
     }
 
-    public long getDate() {
-        return mDate;
+    public int getDowns() {
+        return mDowns;
     }
 
-    public void setDate(long date) {
-        this.mDate = date;
+    public void setDowns(int downs) {
+        mDowns = downs;
     }
 
-    public String getIconURL() {
-        return mIconURL;
+    public int getUps() {
+        return mUps;
     }
 
-    public void setIconURL(String mIconURL) {
-        this.mIconURL = mIconURL;
+    public void setUps(int ups) {
+        mUps = ups;
     }
 }
