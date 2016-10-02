@@ -42,8 +42,8 @@ public class Backend {
                 try {
                     JSONObject data = result.getJSONObject("data");
                     JSONArray children = data.getJSONArray("children");
-                    mLstPostsModel.clear();
-                    for (int i=0; i < children.length(); i++) {
+
+                    for (int i = 0; i < children.length(); i++) {
                         JSONObject child = children.getJSONObject(i);
                         JSONObject childData = child.getJSONObject("data");
 
@@ -63,10 +63,10 @@ public class Backend {
                         item.setDowns(childData.getInt("downs"));
                         item.setUps(childData.getInt("ups"));
                         mLstPostsModel.add(item);
-                    }
 
-                    if (adapter != null)
-                        adapter.notifyDataSetChanged();
+                        if (adapter != null)
+                            adapter.notifyDataSetChanged();
+                    }
 
                     Log.i("JSON", String.format("Read %1$d objects.", mLstPostsModel.size()));
                 }catch (Exception e) {
