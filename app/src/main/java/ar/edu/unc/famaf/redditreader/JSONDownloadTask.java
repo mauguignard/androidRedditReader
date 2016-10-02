@@ -18,36 +18,11 @@ class JSONDownloadTask extends AsyncTask<String, Void, JSONObject> {
     private static String USER_AGENT =
             "android:ar.edu.unc.famaf.redditreader:v1.0";
 
-    private int limit;
-    private String after;
-    private String before;
-
-
-    public JSONDownloadTask(int limit) {
-        this.limit = limit;
-        this.after = null;
-        this.before = null;
-    }
-
-    public JSONDownloadTask(int limit, String after, String before) {
-        this.limit = limit;
-        this.after = after;
-        this.before = before;
-    }
-
     protected JSONObject doInBackground(String ... urls) {
         JSONObject jsonObj = null;
 
         try {
-            String url = urls[0] + "?&limit=" + Integer.toString(limit);
-
-            if (after != null)
-                url += "&after=" + after;
-
-            if (before != null)
-                url += "&before=" + before;
-
-            URLConnection connection = new URL(url).openConnection();
+            URLConnection connection = new URL(urls[0]).openConnection();
             connection.addRequestProperty("User-Agent:", USER_AGENT);
 
             InputStream is = connection.getInputStream();

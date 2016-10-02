@@ -36,7 +36,7 @@ public class Backend {
     }
 
     public void getTopPosts() {
-        JSONDownloadTask downloader = new JSONDownloadTask(LIMIT) {
+        JSONDownloadTask downloader = new JSONDownloadTask() {
             @Override
             protected void onPostExecute(JSONObject result) {
                 try {
@@ -65,8 +65,11 @@ public class Backend {
             }
         };
 
-        if (mLstPostsModel.isEmpty())
-            downloader.execute("https://www.reddit.com/top/.json");
+        if (mLstPostsModel.isEmpty()) {
+            String url = "https://www.reddit.com/top/.json?&limit=" + Integer.toString(LIMIT);
+
+            downloader.execute(url);
+        }
     }
 
 }
