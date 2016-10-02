@@ -46,7 +46,6 @@ public class Backend {
                     for (int i=0; i < children.length(); i++) {
                         JSONObject child = children.getJSONObject(i);
                         JSONObject childData = child.getJSONObject("data");
-                        Log.i("JSON", childData.toString());
 
                         PostModel item = new PostModel();
                         item.setDomain(childData.getString("domain"));
@@ -64,11 +63,12 @@ public class Backend {
                         item.setDowns(childData.getInt("downs"));
                         item.setUps(childData.getInt("ups"));
                         mLstPostsModel.add(item);
-                        Log.e("COUNT", Integer.toString(mLstPostsModel.size()));
-
-                        if (adapter != null)
-                            adapter.notifyDataSetChanged();
                     }
+
+                    if (adapter != null)
+                        adapter.notifyDataSetChanged();
+
+                    Log.i("JSON", String.format("Read %1$d objects.", mLstPostsModel.size()));
                 }catch (Exception e) {
                     Log.e("JSON_ERROR", "Unable to parse JSON object");
                     if (e.getMessage() != null) {
@@ -79,6 +79,7 @@ public class Backend {
             }
         };
 
-        downloader.execute("https://www.reddit.com/top/.json");
+        if (mLstPostsModel.isEmpty())
+            downloader.execute("https://www.reddit.com/top/.json");
     }
 }
