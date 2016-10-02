@@ -36,12 +36,29 @@ public class Backend {
     }
 
     public void getTopPosts() {
+        if (mLstPostsModel.isEmpty())
+            getTopPosts(false);
+    }
+
+    public void getNextTopPosts() {
+        getTopPosts(true);
+    }
+
+    private void getTopPosts(final boolean append) {
+        String after = null;
+
+        if (append && !mLstPostsModel.isEmpty())
+            after = mLstPostsModel.get(mLstPostsModel.size() - 1).getName();
+
         JSONDownloadTask downloader = new JSONDownloadTask() {
             @Override
             protected void onPostExecute(JSONObject result) {
                 try {
                     JSONObject data = result.getJSONObject("data");
                     JSONArray children = data.getJSONArray("children");
+
+                    if (!append)
+                        mLstPostsModel.clear();
 
                     for (int i = 0; i < children.length(); i++) {
                         JSONObject child = children.getJSONObject(i);
@@ -65,11 +82,12 @@ public class Backend {
             }
         };
 
-        if (mLstPostsModel.isEmpty()) {
-            String url = "https://www.reddit.com/top/.json?&limit=" + Integer.toString(LIMIT);
+        String url = "https://www.reddit.com/top/.json?&limit=" + Integer.toString(LIMIT);
 
-            downloader.execute(url);
-        }
+        if (after != null)
+            url += "&after=" + after;
+
+        downloader.execute(url);
     }
 
 }
