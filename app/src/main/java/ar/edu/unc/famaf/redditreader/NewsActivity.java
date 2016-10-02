@@ -22,9 +22,11 @@ public class NewsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        PostAdapter adapter =
-                new PostAdapter(this, R.layout.post_row,
-                        Backend.getInstance().getTopPosts());
+        PostAdapter adapter = new PostAdapter(this, R.layout.post_row,
+                Backend.getInstance().getLst());
+        Backend.getInstance().setAdapter(adapter);
+        Backend.getInstance().getTopPosts();
+
         ListView PostsLV = (ListView) findViewById(R.id.subredditListView);
         PostsLV.setAdapter(adapter);
     }

@@ -1,5 +1,10 @@
 package ar.edu.unc.famaf.redditreader;
 
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,62 +18,67 @@ public class Backend {
         return ourInstance;
     }
 
+    private static int LIMIT = 25;
+
     private List<PostModel> mLstPostsModel;
+    private PostAdapter adapter;
+
     private Backend() {
         mLstPostsModel = new ArrayList<>();
-
-        String[] subredditNames = {
-                "r/funny",
-                "r/funny",
-                "r/creepy",
-                "r/gifts",
-                "r/pics"
-        };
-
-        String[] subredditDescriptions = {
-                "Fantastic Name.",
-                "Conan on sexism",
-                "I asked my sculptor friend to make me something creepy using my grandfather's glass eye. He did.",
-                "Somebody's got a spring in their step",
-                "I stood here for an hour, in Mountain Lion country, waiting for the galaxy to align with the road. It was totally worth it."
-        };
-
-        String[] subredditIcons = {
-                "https://b.thumbs.redditmedia.com/g3SGuAZgUFRZffXusvn9W8mgAQzzz-zx25rpw6fYeWA.jpg",
-                "https://a.thumbs.redditmedia.com/1xhcjetJ67YFk6Udip4PE1K5_k6goJrgV1IkkCiMGg0.jpg",
-                "https://b.thumbs.redditmedia.com/Saurgod807X2u6NgheWeM0dzjZshXIm4Es1xHcah6bA.jpg",
-                "https://b.thumbs.redditmedia.com/POb0KpNagq07j8M5ZMzl0zyJqUpRRZHUG_S6Mae8yJc.jpg",
-                "https://b.thumbs.redditmedia.com/ns-cFGDY5srMZ616vG3eL5OmGMd_s7Yo1qKpaqJJ7GQ.jpg"
-        };
-
-        int[] subredditNoComments = {
-                153,
-                396,
-                154,
-                553,
-                601
-        };
-
-        long[] subredditDates = {
-                System.currentTimeMillis() - 46800000,
-                System.currentTimeMillis() - 14400000,
-                System.currentTimeMillis() - 10800000,
-                System.currentTimeMillis() - 32400000,
-                System.currentTimeMillis() - 14400000
-        };
-
-        for (int i = 0; i < 5; i++) {
-            PostModel item = new PostModel();
-            item.setSubreddit(subredditNames[i]);
-            item.setTitle(subredditDescriptions[i]);
-            item.setNoComments(subredditNoComments[i]);
-            item.setCreated(subredditDates[i]);
-            item.setThumbnail(subredditIcons[i]);
-            mLstPostsModel.add(item);
-        }
     }
 
-    public  List<PostModel> getTopPosts() {
+    public List<PostModel> getLst() {
         return mLstPostsModel;
+    }
+
+    public void setAdapter(PostAdapter adapter) {
+        this.adapter = adapter;
+    }
+
+    public void getTopPosts() {
+        JSONDownloadTask downloader = new JSONDownloadTask(LIMIT) {
+            @Override
+            protected void onPostExecute(JSONObject result) {
+                try {
+                    JSONObject data = result.getJSONObject("data");
+                    JSONArray children = data.getJSONArray("children");
+                    mLstPostsModel.clear();
+                    for (int i=0; i < children.length(); i++) {
+                        JSONObject child = children.getJSONObject(i);
+                        JSONObject childData = child.getJSONObject("data");
+                        Log.i("JSON", childData.toString());
+
+                        PostModel item = new PostModel();
+                        item.setDomain(childData.getString("domain"));
+                        item.setSubreddit("r/" + childData.getString("subreddit"));
+                        item.setAuthor(childData.getString("author"));
+                        item.setName(childData.getString("name"));
+                        item.setScore(childData.getInt("score"));
+                        item.setOver18(childData.getBoolean("over_18"));
+                        item.setThumbnail(childData.getString("thumbnail"));
+                        item.setPermalink(childData.getString("permalink"));
+                        item.setCreated(childData.getLong("created_utc") * 1000);
+                        item.setURL(childData.getString("url"));
+                        item.setTitle(childData.getString("title"));
+                        item.setNoComments(childData.getInt("num_comments"));
+                        item.setDowns(childData.getInt("downs"));
+                        item.setUps(childData.getInt("ups"));
+                        mLstPostsModel.add(item);
+                        Log.e("COUNT", Integer.toString(mLstPostsModel.size()));
+
+                        if (adapter != null)
+                            adapter.notifyDataSetChanged();
+                    }
+                }catch (Exception e) {
+                    Log.e("JSON_ERROR", "Unable to parse JSON object");
+                    if (e.getMessage() != null) {
+                        Log.e("JSON_ERROR", e.getMessage());
+                    }
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        downloader.execute("https://www.reddit.com/top/.json");
     }
 }
