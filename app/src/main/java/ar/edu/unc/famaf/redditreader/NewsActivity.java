@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 public class NewsActivity extends AppCompatActivity {
@@ -29,6 +30,31 @@ public class NewsActivity extends AppCompatActivity {
 
         ListView PostsLV = (ListView) findViewById(R.id.subredditListView);
         PostsLV.setAdapter(adapter);
+
+        PostsLV.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private static final int THRESHOLD = 5;
+            private int previousTotal = 0;
+            private boolean loading = true;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                 int totalItemCount) {
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                } else if (totalItemCount - visibleItemCount <= firstVisibleItem + THRESHOLD) {
+                    Backend.getInstance().getNextTopPosts();
+                    loading = true;
+                }
+            }
+        });
     }
 
     @Override
