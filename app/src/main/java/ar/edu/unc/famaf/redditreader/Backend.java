@@ -47,28 +47,14 @@ public class Backend {
                         JSONObject child = children.getJSONObject(i);
                         JSONObject childData = child.getJSONObject("data");
 
-                        PostModel item = new PostModel();
-                        item.setDomain(childData.getString("domain"));
-                        item.setSubreddit("r/" + childData.getString("subreddit"));
-                        item.setAuthor(childData.getString("author"));
-                        item.setName(childData.getString("name"));
-                        item.setScore(childData.getInt("score"));
-                        item.setOver18(childData.getBoolean("over_18"));
-                        item.setThumbnail(childData.getString("thumbnail"));
-                        item.setPermalink(childData.getString("permalink"));
-                        item.setCreated(childData.getLong("created_utc") * 1000);
-                        item.setURL(childData.getString("url"));
-                        item.setTitle(childData.getString("title"));
-                        item.setNoComments(childData.getInt("num_comments"));
-                        item.setDowns(childData.getInt("downs"));
-                        item.setUps(childData.getInt("ups"));
+                        PostModel item = new PostModel(childData);
                         mLstPostsModel.add(item);
 
                         if (adapter != null)
                             adapter.notifyDataSetChanged();
                     }
 
-                    Log.i("JSON", String.format("Read %1$d objects.", mLstPostsModel.size()));
+                    Log.i("JSON", String.format("Read %1$d objects.", children.length()));
                 }catch (Exception e) {
                     Log.e("JSON_ERROR", "Unable to parse JSON object");
                     if (e.getMessage() != null) {
@@ -82,4 +68,5 @@ public class Backend {
         if (mLstPostsModel.isEmpty())
             downloader.execute("https://www.reddit.com/top/.json");
     }
+
 }

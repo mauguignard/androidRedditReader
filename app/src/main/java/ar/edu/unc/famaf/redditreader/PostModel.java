@@ -1,5 +1,8 @@
 package ar.edu.unc.famaf.redditreader;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by mauguignard on 9/20/16.
  */
@@ -19,6 +22,22 @@ public class PostModel {
     private int mDowns;
     private int mUps;
 
+    public PostModel(JSONObject jsonObj) throws JSONException {
+        this.mDomain = jsonObj.getString("domain");
+        this.mSubreddit = "r/" + jsonObj.getString("subreddit");
+        this.mAuthor = jsonObj.getString("author");
+        this.mName = jsonObj.getString("name");
+        this.mScore = jsonObj.getInt("score");
+        this.mOver18 = jsonObj.getBoolean("over_18");
+        this.mThumbnail = jsonObj.getString("thumbnail");
+        this.mPermalink = jsonObj.getString("permalink");
+        this.mCreated = jsonObj.getLong("created_utc") * 1000;
+        this.mURL = jsonObj.getString("url");
+        this.mTitle = jsonObj.getString("title");
+        this.mNoComments = jsonObj.getInt("num_comments");
+        this.mDowns = jsonObj.getInt("downs");
+        this.mUps= jsonObj.getInt("ups");
+    }
 
     public String getDomain() {
         return mDomain;
