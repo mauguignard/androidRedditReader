@@ -63,19 +63,28 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         subredditName.setText(sm.getSubreddit());
         subredditDescription.setText(sm.getTitle());
         subredditNoComments.setText(String.format(context.getResources().getString(R.string.no_comments), sm.getNoComments()));
-        final Picasso picasso = Picasso.with(context);
-        picasso.setIndicatorsEnabled(true);
-        picasso.load(sm.getThumbnail()).networkPolicy(NetworkPolicy.OFFLINE)
-                .into(subredditIcon, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                    }
 
-                    @Override
-                    public void onError() {
-                        picasso.load(sm.getThumbnail()).into(subredditIcon);
-                    }
-                });
+        if (sm.isOver18())
+            subredditIcon.setImageResource(R.drawable.ic_nsfw_icon);
+        else if (sm.getThumbnail().equals("self"))
+            subredditIcon.setImageResource(R.drawable.ic_self_icon);
+        else if (sm.getThumbnail().equals("default"))
+            subredditIcon.setImageResource(R.drawable.ic_link_icon);
+        else {
+            final Picasso picasso = Picasso.with(context);
+            picasso.setIndicatorsEnabled(true);
+            picasso.load(sm.getThumbnail()).networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(subredditIcon, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+
+                        @Override
+                        public void onError() {
+                            picasso.load(sm.getThumbnail()).into(subredditIcon);
+                        }
+                    });
+        }
 
         long time = sm.getCreated();
         long now = System.currentTimeMillis();
