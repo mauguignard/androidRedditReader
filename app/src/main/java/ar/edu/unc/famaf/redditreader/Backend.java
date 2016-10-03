@@ -18,9 +18,9 @@ public class Backend {
         return ourInstance;
     }
 
-    private static int LIMIT = 25;
+    private static final int LIMIT = 25;
 
-    private List<PostModel> mLstPostsModel;
+    private final List<PostModel> mLstPostsModel;
     private PostAdapter adapter;
 
     private Backend() {

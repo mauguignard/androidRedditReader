@@ -8,11 +8,8 @@
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_invalid_email">La dirección de email is inválida</string>
     <string name="error_invalid_password">La contraseña es muy corta</string>
-    <string name="event_user_logged_in">El usuario %1$s inició sesión</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Contraseña (opcional)</string>
     <string name="title_activity_news">Lector de Reddit</string>
-    <string name="no_user_logged">Ningún usuario ha iniciado sesión</string>
-    <string name="hours_ago">Hace %1$d hs</string>
     <string name="no_comments">%1$d comentarios</string>
 </resources>

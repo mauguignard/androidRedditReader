@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 public class NewsActivity extends AppCompatActivity {
 
-    public final static int LOGIN_CODE = 2;
+    private static final int LOGIN_CODE = 2;
     public final static String EMAIL_MESSAGE = "famaf.unc.edu.ar.activitiesassignment.EMAIL_MESSAGE";
 
     @Override
@@ -113,7 +113,7 @@ public class NewsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LOGIN_CODE) {
             if (resultCode == RESULT_OK) {
-                String login_message = String.format(getString(R.string.event_user_logged_in),
+                String login_message = String.format("User %1$s logged in",
                                                      data.getStringExtra(EMAIL_MESSAGE));
                 Log.i("LOGIN_SUCCESSFUL", login_message);
             } else {

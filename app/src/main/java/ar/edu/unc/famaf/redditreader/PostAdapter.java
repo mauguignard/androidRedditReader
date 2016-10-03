@@ -1,6 +1,7 @@
 package ar.edu.unc.famaf.redditreader;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by mauguignard on 9/20/16.
  */
-public class PostAdapter extends ArrayAdapter<PostModel> {
+class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> mLstPostsModel = null;
     private Context context;
 
@@ -43,8 +44,9 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         return mLstPostsModel.get(position);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         if (convertView == null) {
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(

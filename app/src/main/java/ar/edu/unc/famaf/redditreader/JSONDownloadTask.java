@@ -15,7 +15,7 @@ import java.net.URLConnection;
  * Created by mauguignard on 10/1/16.
  */
 class JSONDownloadTask extends AsyncTask<String, Void, JSONObject> {
-    private static String USER_AGENT =
+    private static final String USER_AGENT =
             "android:ar.edu.unc.famaf.redditreader:v1.0";
 
     protected JSONObject doInBackground(String ... urls) {
