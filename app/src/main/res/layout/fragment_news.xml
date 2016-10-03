@@ -1,17 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/news_activity_fragment_id"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ar.edu.unc.famaf.redditreader.NewsActivityFragment"
-    tools:showIn="@layout/activity_news"
-    android:foregroundTint="@color/abc_tint_default">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/news_activity_fragment_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="ar.edu.unc.famaf.redditreader.NewsActivityFragment"
+                tools:showIn="@layout/activity_news">
 
 
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/subredditListView"
-        android:divider="@android:color/transparent"
-        android:elevation="1dp" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/subredditListView"
+            android:divider="@android:color/transparent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

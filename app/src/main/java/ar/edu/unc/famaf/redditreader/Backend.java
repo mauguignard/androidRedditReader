@@ -36,8 +36,7 @@ public class Backend {
     }
 
     public void getTopPosts() {
-        if (mLstPostsModel.isEmpty())
-            getTopPosts(false);
+        getTopPosts(false);
     }
 
     public void getNextTopPosts() {

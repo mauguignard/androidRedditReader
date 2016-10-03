@@ -3,4 +3,12 @@
     <color name="colorPrimary">#eb402e</color>
     <color name="colorPrimaryDark">#cb2513</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="flairNoPress">#888888</color>
+    <color name="flairPress1">#D50000</color>
+    <color name="flairPress2">#E59500</color>
+    <color name="flairPress3">#E5D900</color>
+    <color name="flairPress4">#02BE01</color>
+    <color name="flairPress5">#0083C7</color>
+    <color name="flairPress6">#820080</color>
 </resources>

@@ -2,6 +2,7 @@ package ar.edu.unc.famaf.redditreader;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,10 +24,39 @@ public class NewsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Backend.getInstance().getTopPosts();
+            }
+        });
+
+        swipeContainer.setColorSchemeResources(R.color.flairNoPress,
+                R.color.flairPress6,
+                R.color.flairPress5,
+                R.color.flairPress4,
+                R.color.flairPress3,
+                R.color.flairPress2,
+                R.color.flairPress1);
+
+
         PostAdapter adapter = new PostAdapter(this, R.layout.post_row,
-                Backend.getInstance().getLst());
+                Backend.getInstance().getLst()) {
+            @Override
+            public void notifyDataSetChanged() {
+                super.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+            }
+        };
+
         Backend.getInstance().setAdapter(adapter);
-        Backend.getInstance().getTopPosts();
+
+        if (Backend.getInstance().getLst().isEmpty()) {
+            Backend.getInstance().getTopPosts();
+            swipeContainer.setRefreshing(true);
+        }
 
         ListView PostsLV = (ListView) findViewById(R.id.subredditListView);
         PostsLV.setAdapter(adapter);
@@ -45,7 +75,7 @@ public class NewsActivity extends AppCompatActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
                                  int totalItemCount) {
                 if (loading) {
-                    if (totalItemCount > previousTotal) {
+                    if (totalItemCount != previousTotal) {
                         loading = false;
                         previousTotal = totalItemCount;
                     }
