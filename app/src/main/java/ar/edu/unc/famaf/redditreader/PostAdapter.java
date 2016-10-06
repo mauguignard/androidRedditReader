@@ -24,6 +24,15 @@ class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> mLstPostsModel = null;
     private Context context;
 
+    static class ViewHolderItem {
+        TextView subredditByAuthorTV;
+        TextView gildedTV;
+        TextView titleTV;
+        TextView bottomTV;
+        TextView dateTV;
+        ImageView thumbnailIV;
+    }
+
     public PostAdapter(Context context, int resource, List<PostModel> lst) {
         super(context, resource);
         this.mLstPostsModel = lst;
@@ -49,62 +58,69 @@ class PostAdapter extends ArrayAdapter<PostModel> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
+        final ViewHolderItem viewHolder;
+
         if (convertView == null) {
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.post_row, parent, false);
+
+            viewHolder = new ViewHolderItem();
+            viewHolder.subredditByAuthorTV = (TextView) convertView.findViewById(R.id.postSubredditByAuthor);
+            viewHolder.gildedTV = (TextView) convertView.findViewById(R.id.postGilded);
+            viewHolder.titleTV = (TextView) convertView.findViewById(R.id.postTitle);
+            viewHolder.bottomTV = (TextView) convertView.findViewById(R.id.postBottom);
+            viewHolder.dateTV = (TextView) convertView.findViewById(R.id.postDate);
+            viewHolder.thumbnailIV = (ImageView) convertView.findViewById(R.id.postThumbnail);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolderItem) convertView.getTag();
         }
 
         final PostModel sm = mLstPostsModel.get(position);
-
-        TextView subredditByAuthorTV = (TextView) convertView.findViewById(R.id.postSubredditByAuthor);
-        TextView gildedTV = (TextView) convertView.findViewById(R.id.postGilded);
-        TextView titleTV = (TextView) convertView.findViewById(R.id.postTitle);
-        TextView bottomTV = (TextView) convertView.findViewById(R.id.postBottom);
-        TextView dateTV = (TextView) convertView.findViewById(R.id.postDate);
-        final ImageView thumbnailIV = (ImageView) convertView.findViewById(R.id.postThumbnail);
 
         String r = String.format(context.getResources().getString(R.string.subreddit_by_author),
                 sm.getSubreddit(), "#737373", sm.getAuthor());
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            subredditByAuthorTV.setText(Html.fromHtml(r,Html.FROM_HTML_MODE_LEGACY));
+            viewHolder.subredditByAuthorTV.setText(Html.fromHtml(r,Html.FROM_HTML_MODE_LEGACY));
         } else {
-            subredditByAuthorTV.setText(Html.fromHtml(r));
+            viewHolder.subredditByAuthorTV.setText(Html.fromHtml(r));
         }
 
         if (sm.getGilded() > 0) {
-            gildedTV.setVisibility(View.VISIBLE);
-            gildedTV.setText(String.format("★%1$d", sm.getGilded()));
+            viewHolder.gildedTV.setVisibility(View.VISIBLE);
+            viewHolder.gildedTV.setText(String.format("★%1$d", sm.getGilded()));
         } else {
-            gildedTV.setVisibility(View.GONE);
+            viewHolder.gildedTV.setVisibility(View.GONE);
         }
 
-        titleTV.setText(sm.getTitle());
+        viewHolder.titleTV.setText(sm.getTitle());
 
-        bottomTV.setText(String.format(context.getResources().getString(R.string.no_comments), sm.getNoComments()));
+        viewHolder.bottomTV.setText(String.format(context.getResources().getString(R.string.no_comments), sm.getNoComments()));
 
         if (!sm.getDomain().equals(String.format("self.%1$s", sm.getSubreddit())))
-            bottomTV.append(String.format(" • %1$s", sm.getDomain()));
+            viewHolder.bottomTV.append(String.format(" • %1$s", sm.getDomain()));
 
         if (sm.isOver18())
-            thumbnailIV.setImageResource(R.drawable.ic_nsfw_icon);
+            viewHolder.thumbnailIV.setImageResource(R.drawable.ic_nsfw_icon);
         else if (sm.getThumbnail().equals("self"))
-            thumbnailIV.setImageResource(R.drawable.ic_self_icon);
+            viewHolder.thumbnailIV.setImageResource(R.drawable.ic_self_icon);
         else if (sm.getThumbnail().equals("default"))
-            thumbnailIV.setImageResource(R.drawable.ic_link_icon);
+            viewHolder.thumbnailIV.setImageResource(R.drawable.ic_link_icon);
         else {
             final Picasso picasso = Picasso.with(context);
             picasso.setIndicatorsEnabled(true);
             picasso.load(sm.getThumbnail()).networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(thumbnailIV, new Callback() {
+                    .into(viewHolder.thumbnailIV, new Callback() {
                         @Override
                         public void onSuccess() {
                         }
 
                         @Override
                         public void onError() {
-                            picasso.load(sm.getThumbnail()).into(thumbnailIV);
+                            picasso.load(sm.getThumbnail()).into(viewHolder.thumbnailIV);
                         }
                     });
         }
@@ -113,7 +129,7 @@ class PostAdapter extends ArrayAdapter<PostModel> {
         long now = System.currentTimeMillis();
         CharSequence relativeTimeStr = DateUtils.getRelativeTimeSpanString(time,
                 now, DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
-        dateTV.setText(relativeTimeStr);
+        viewHolder.dateTV.setText(relativeTimeStr);
 
         return convertView;
     }
