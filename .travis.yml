@@ -1,4 +1,8 @@
 language: android
+jdk: oraclejdk8
+
+cache: false
+
 android:
   components:
     # Uncomment the lines below if you want to
@@ -14,3 +18,5 @@ android:
 
     # Additional components
     - extra-android-support
+    - extra-google-m2repository
+    - extra-android-m2repository
