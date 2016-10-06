@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Reddit Reader</string>
+    <string name="app_name" translatable="false">Redder</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -12,10 +12,10 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
 
-    <string name="no_comments">%1$d comments</string>
+    <string name="subreddit_by_author"><![CDATA[r/%1$s <font color=%2$s>by</font> %3$s]]></string>
+    <string name="no_comments">%1$d Comments</string>
 
-
-    <string name="title_activity_news">Reddit Reader</string>
+    <string name="title_activity_news" translatable="false">Redder</string>
 
 
 </resources>

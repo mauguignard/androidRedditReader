@@ -75,7 +75,7 @@ public class NewsActivity extends AppCompatActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
                                  int totalItemCount) {
                 if (loading) {
-                    if (totalItemCount != previousTotal) {
+                    if (Math.abs(totalItemCount - previousTotal) >= 5) {
                         loading = false;
                         previousTotal = totalItemCount;
                     }

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 public class PostModel {
     private String mDomain;
     private String mSubreddit;
+    private int mGilded;
     private String mAuthor;
     private String mName;
     private int mScore;
@@ -16,6 +17,7 @@ public class PostModel {
     private String mThumbnail;
     private String mPermalink;
     private long mCreated;
+    private String mLinkFlairText;
     private String mURL;
     private String mTitle;
     private int mNoComments;
@@ -24,7 +26,8 @@ public class PostModel {
 
     public PostModel(JSONObject jsonObj) throws JSONException {
         this.mDomain = jsonObj.getString("domain");
-        this.mSubreddit = "r/" + jsonObj.getString("subreddit");
+        this.mSubreddit = jsonObj.getString("subreddit");
+        this.mGilded = jsonObj.getInt("gilded");
         this.mAuthor = jsonObj.getString("author");
         this.mName = jsonObj.getString("name");
         this.mScore = jsonObj.getInt("score");
@@ -53,6 +56,14 @@ public class PostModel {
 
     public void setSubreddit(String subreddit) {
         mSubreddit = subreddit;
+    }
+
+    public int getGilded() {
+        return mGilded;
+    }
+
+    public void setGilded(int gilded) {
+        mGilded = gilded;
     }
 
     public String getAuthor() {
@@ -109,6 +120,14 @@ public class PostModel {
 
     public void setCreated(long created) {
         mCreated = created;
+    }
+
+    public String getLinkFlairText() {
+        return mLinkFlairText;
+    }
+
+    public void setLinkFlairText(String linkFlairText) {
+        mLinkFlairText = linkFlairText;
     }
 
     public String getURL() {

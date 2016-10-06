@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Lector de Reddit</string>
     <string name="action_sign_in">Iniciar sesión o Registrarse</string>
     <string name="action_sign_in_short">Iniciar sesión</string>
     <string name="action_sign_out">Cerrar sesión</string>
@@ -10,6 +9,6 @@
     <string name="error_invalid_password">La contraseña es muy corta</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Contraseña (opcional)</string>
-    <string name="title_activity_news">Lector de Reddit</string>
-    <string name="no_comments">%1$d comentarios</string>
+    <string name="no_comments">%1$d Comentarios</string>
+    <string name="subreddit_by_author"><![CDATA[r/%1$s <font color=%2$s>por</font> %3$s]]></string>
 </resources>

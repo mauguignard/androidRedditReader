@@ -2,6 +2,7 @@ package ar.edu.unc.famaf.redditreader;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,34 +57,54 @@ class PostAdapter extends ArrayAdapter<PostModel> {
 
         final PostModel sm = mLstPostsModel.get(position);
 
-        TextView subredditName = (TextView) convertView.findViewById(R.id.subredditName);
-        TextView subredditDescription = (TextView) convertView.findViewById(R.id.subredditDescription);
-        TextView subredditNoComments = (TextView) convertView.findViewById(R.id.subreditNoComments);
-        TextView subredditDate = (TextView) convertView.findViewById(R.id.subredditLastUpdated);
-        final ImageView subredditIcon = (ImageView) convertView.findViewById(R.id.subredditIcon);
+        TextView subredditByAuthorTV = (TextView) convertView.findViewById(R.id.postSubredditByAuthor);
+        TextView gildedTV = (TextView) convertView.findViewById(R.id.postGilded);
+        TextView titleTV = (TextView) convertView.findViewById(R.id.postTitle);
+        TextView bottomTV = (TextView) convertView.findViewById(R.id.postBottom);
+        TextView dateTV = (TextView) convertView.findViewById(R.id.postDate);
+        final ImageView thumbnailIV = (ImageView) convertView.findViewById(R.id.postThumbnail);
 
-        subredditName.setText(sm.getSubreddit());
-        subredditDescription.setText(sm.getTitle());
-        subredditNoComments.setText(String.format(context.getResources().getString(R.string.no_comments), sm.getNoComments()));
+        String r = String.format(context.getResources().getString(R.string.subreddit_by_author),
+                sm.getSubreddit(), "#737373", sm.getAuthor());
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            subredditByAuthorTV.setText(Html.fromHtml(r,Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            subredditByAuthorTV.setText(Html.fromHtml(r));
+        }
+
+        if (sm.getGilded() > 0) {
+            gildedTV.setVisibility(View.VISIBLE);
+            gildedTV.setText(String.format("★%1$d", sm.getGilded()));
+        } else {
+            gildedTV.setVisibility(View.GONE);
+        }
+
+        titleTV.setText(sm.getTitle());
+
+        bottomTV.setText(String.format(context.getResources().getString(R.string.no_comments), sm.getNoComments()));
+
+        if (!sm.getDomain().equals(String.format("self.%1$s", sm.getSubreddit())))
+            bottomTV.append(String.format(" • %1$s", sm.getDomain()));
 
         if (sm.isOver18())
-            subredditIcon.setImageResource(R.drawable.ic_nsfw_icon);
+            thumbnailIV.setImageResource(R.drawable.ic_nsfw_icon);
         else if (sm.getThumbnail().equals("self"))
-            subredditIcon.setImageResource(R.drawable.ic_self_icon);
+            thumbnailIV.setImageResource(R.drawable.ic_self_icon);
         else if (sm.getThumbnail().equals("default"))
-            subredditIcon.setImageResource(R.drawable.ic_link_icon);
+            thumbnailIV.setImageResource(R.drawable.ic_link_icon);
         else {
             final Picasso picasso = Picasso.with(context);
             picasso.setIndicatorsEnabled(true);
             picasso.load(sm.getThumbnail()).networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(subredditIcon, new Callback() {
+                    .into(thumbnailIV, new Callback() {
                         @Override
                         public void onSuccess() {
                         }
 
                         @Override
                         public void onError() {
-                            picasso.load(sm.getThumbnail()).into(subredditIcon);
+                            picasso.load(sm.getThumbnail()).into(thumbnailIV);
                         }
                     });
         }
@@ -92,7 +113,7 @@ class PostAdapter extends ArrayAdapter<PostModel> {
         long now = System.currentTimeMillis();
         CharSequence relativeTimeStr = DateUtils.getRelativeTimeSpanString(time,
                 now, DateUtils.SECOND_IN_MILLIS, DateUtils.FORMAT_ABBREV_RELATIVE);
-        subredditDate.setText(relativeTimeStr);
+        dateTV.setText(relativeTimeStr);
 
         return convertView;
     }

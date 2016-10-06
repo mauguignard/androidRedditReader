@@ -15,6 +15,7 @@
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
+            android:layoutAnimation="@anim/layout_item_slide_up"
             android:id="@+id/subredditListView"
             android:divider="@android:color/transparent"/>
 
