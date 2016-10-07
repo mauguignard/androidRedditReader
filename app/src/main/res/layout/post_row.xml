@@ -2,13 +2,12 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:id="@+id/subredditItem"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
     android:paddingTop="8dp"
     android:paddingBottom="8dp">
 
@@ -18,85 +17,78 @@
         android:id="@+id/postThumbnail"
         android:src="@mipmap/ic_launcher" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1">
+        android:layout_marginStart="8dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/postSubredditByAuthor"
+            tools:text="r/example by author"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/postGilded"
+            android:layout_toStartOf="@+id/postGilded"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="13sp"
+            android:textColor="#83180c"
+            android:fontFamily="sans-serif-condensed"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/postSubredditByAuthor"
-                tools:text="r/example by author"
-                android:maxLines="1"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-condensed"
-                android:textSize="13sp"
-                android:gravity="center_vertical"
-                android:textColor="#83180c"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/postGilded"
+            tools:text="★5"
+            android:layout_toLeftOf="@+id/postDate"
+            android:layout_toStartOf="@+id/postDate"
+            android:maxLines="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:textSize="13sp"
+            android:textColor="@color/goldenYellow"
+            android:fontFamily="sans-serif-condensed"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/postGilded"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginEnd="5dp"
-                tools:text="★5"
-                android:textColor="@color/goldenYellow"
-                android:fontFamily="sans-serif-condensed"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/postDate"
-                tools:text="3 hs ago"
-                android:fontFamily="sans-serif-condensed"/>
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/postDate"
+            tools:text="3 hs ago"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-condensed"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/postTitle"
             tools:text="Lorem ipsum dolor sit amet"
+            android:layout_below="@id/postSubredditByAuthor"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginBottom="2dp"
             android:maxLines="4"
             android:ellipsize="end"
             android:textColor="?android:attr/textColorPrimary"
             android:textStyle="normal|bold"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/postBottom"
+            tools:text="123 Comments • example.com"
+            android:layout_below="@id/postTitle"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_comment_icon"
+            android:drawableStart="@drawable/ic_comment_icon"
+            android:drawablePadding="3dp"
+            android:fontFamily="sans-serif-condensed"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_comment_icon"
-                android:layout_height="16dp"
-                android:layout_marginTop="2.5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_comments"
-                android:id="@+id/postBottom"
-                tools:text="123 Comments • example.com"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="sans-serif-condensed"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
