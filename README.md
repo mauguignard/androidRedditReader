@@ -1,4 +1,5 @@
 # Android Reddit Reader
+[![Build Status](https://travis-ci.org/mauguignard/androidRedditReader.svg?branch=master)](https://travis-ci.org/mauguignard/androidRedditReader)
 
 ## Context
 

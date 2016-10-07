@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

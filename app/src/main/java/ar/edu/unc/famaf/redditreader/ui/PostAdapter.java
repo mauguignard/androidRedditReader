@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -17,10 +17,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import ar.edu.unc.famaf.redditreader.R;
+import ar.edu.unc.famaf.redditreader.model.PostModel;
+
 /**
  * Created by mauguignard on 9/20/16.
  */
-class PostAdapter extends ArrayAdapter<PostModel> {
+public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> mLstPostsModel = null;
     private Context context;
 
@@ -108,6 +111,8 @@ class PostAdapter extends ArrayAdapter<PostModel> {
         else if (sm.getThumbnail().equals("self"))
             viewHolder.thumbnailIV.setImageResource(R.drawable.ic_self_icon);
         else if (sm.getThumbnail().equals("default"))
+            viewHolder.thumbnailIV.setImageResource(R.drawable.ic_link_icon);
+        else if (sm.getThumbnail().equals("image"))
             viewHolder.thumbnailIV.setImageResource(R.drawable.ic_link_icon);
         else {
             final Picasso picasso = Picasso.with(context);

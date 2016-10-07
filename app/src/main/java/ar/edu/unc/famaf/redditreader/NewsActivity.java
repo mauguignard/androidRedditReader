@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import ar.edu.unc.famaf.redditreader.backend.Backend;
+import ar.edu.unc.famaf.redditreader.ui.PostAdapter;
+
 public class NewsActivity extends AppCompatActivity {
 
     private static final int LOGIN_CODE = 2;

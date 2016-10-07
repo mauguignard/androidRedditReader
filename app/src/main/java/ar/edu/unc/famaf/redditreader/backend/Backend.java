@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.backend;
 
 import android.util.Log;
 
@@ -7,6 +7,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.edu.unc.famaf.redditreader.JSONDownloadTask;
+import ar.edu.unc.famaf.redditreader.ui.PostAdapter;
+import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 /**
  * Created by mauguignard on 9/29/16.
