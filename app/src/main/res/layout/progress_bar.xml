@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProgressBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:progressDrawable="@drawable/progress_bar"
+    android:indeterminateDrawable="@drawable/progress_bar_indeterminate"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:indeterminate="true"
+    tools:indeterminate="false"
+    tools:max="100"
+    tools:progress="70" />
