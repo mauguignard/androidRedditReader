@@ -1,7 +1,6 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -9,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.BitmapDownloadTask;
+import ar.edu.unc.famaf.redditreader.ImageLoader;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
@@ -31,7 +30,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         TextView titleTV;
         TextView bottomTV;
         TextView dateTV;
-        ImageView thumbnailIV;
+        RelativeLayout thumbnailRL;
     }
 
     public PostAdapter(Context context, int resource, List<PostModel> lst) {
@@ -72,7 +71,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             viewHolder.titleTV = (TextView) convertView.findViewById(R.id.postTitle);
             viewHolder.bottomTV = (TextView) convertView.findViewById(R.id.postBottom);
             viewHolder.dateTV = (TextView) convertView.findViewById(R.id.postDate);
-            viewHolder.thumbnailIV = (ImageView) convertView.findViewById(R.id.postThumbnail);
+            viewHolder.thumbnailRL = (RelativeLayout) convertView.findViewById(R.id.postThumbnail);
 
             convertView.setTag(viewHolder);
         } else {
@@ -116,18 +115,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
 
         // Required to access width and height measures
-        viewHolder.thumbnailIV.post(new Runnable() {
-            @Override
-            public void run() {
-                int width = viewHolder.thumbnailIV.getMeasuredWidth();
-                int height = viewHolder.thumbnailIV.getMeasuredHeight();
-                BitmapDownloadTask downloader = new BitmapDownloadTask(context,
-                        viewHolder.thumbnailIV, width, height, 4);
-
-                // Allow multiple tasks to run in parallel
-                downloader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, thumbnailURL);
-            }
-        });
+        ImageLoader loader = new ImageLoader(context, viewHolder.thumbnailRL, 4);
+        loader.load(thumbnailURL);
 
         long time = sm.getCreated();
         long now = System.currentTimeMillis();
