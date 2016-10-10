@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import ar.edu.unc.famaf.redditreader.backend.Backend;
@@ -61,8 +62,11 @@ public class NewsActivity extends AppCompatActivity {
             swipeContainer.setRefreshing(true);
         }
 
-        ListView PostsLV = (ListView) findViewById(R.id.subredditListView);
+        final ListView PostsLV = (ListView) findViewById(R.id.subredditListView);
         PostsLV.setAdapter(adapter);
+
+        final LinearLayout progressBarFooter = (LinearLayout) getLayoutInflater().inflate(
+                R.layout.progress_bar_footer, null, false);
 
         PostsLV.setOnScrollListener(new AbsListView.OnScrollListener() {
             private static final int THRESHOLD = 5;
@@ -81,10 +85,13 @@ public class NewsActivity extends AppCompatActivity {
                     if (Math.abs(totalItemCount - previousTotal) >= 5) {
                         loading = false;
                         previousTotal = totalItemCount;
+                        PostsLV.removeFooterView(progressBarFooter);
                     }
                 } else if (totalItemCount - visibleItemCount <= firstVisibleItem + THRESHOLD) {
                     Backend.getInstance().getNextTopPosts();
                     loading = true;
+                    PostsLV.addFooterView(progressBarFooter);
+
                 }
             }
         });
