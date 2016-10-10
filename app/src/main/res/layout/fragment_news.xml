@@ -3,7 +3,7 @@
                 android:id="@+id/news_activity_fragment_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="ar.edu.unc.famaf.redditreader.NewsActivityFragment"
+                tools:context="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment"
                 tools:showIn="@layout/activity_news">
 
 

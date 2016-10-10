@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
-import ar.edu.unc.famaf.redditreader.ui.PostAdapter;
 
 public class NewsActivity extends AppCompatActivity {
 

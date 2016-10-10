@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
+
+import ar.edu.unc.famaf.redditreader.R;
 
 /**
  * A login screen that offers login via email/password.
@@ -214,7 +216,7 @@ public class LoginActivity extends AppCompatActivity  {
                 Intent intent = new Intent();
                 String email = mEmailView.getText().toString();
                 intent.putExtra(NewsActivity.EMAIL_MESSAGE, email);
-                setResult(NewsActivity.RESULT_OK, intent);
+                setResult(RESULT_OK, intent);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
