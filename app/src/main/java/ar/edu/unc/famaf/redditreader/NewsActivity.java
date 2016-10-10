@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -63,6 +64,9 @@ public class NewsActivity extends AppCompatActivity {
         }
 
         final ListView PostsLV = (ListView) findViewById(R.id.postsListView);
+
+        // Add dummy footer to avoid crash in API 16
+        PostsLV.addFooterView(new View(this.getBaseContext()));
         PostsLV.setAdapter(adapter);
 
         final LinearLayout progressBarFooter = (LinearLayout) getLayoutInflater().inflate(
@@ -91,7 +95,6 @@ public class NewsActivity extends AppCompatActivity {
                     Backend.getInstance().getNextTopPosts();
                     loading = true;
                     PostsLV.addFooterView(progressBarFooter);
-
                 }
             }
         });
