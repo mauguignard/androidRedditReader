@@ -1,6 +1,7 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.format.DateUtils;
@@ -11,12 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
+import ar.edu.unc.famaf.redditreader.BitmapDownloadTask;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
@@ -106,29 +104,30 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         if (!sm.getDomain().equals(String.format("self.%1$s", sm.getSubreddit())))
             viewHolder.bottomTV.append(String.format(" • %1$s", sm.getDomain()));
 
+        final String thumbnailURL;
         if (sm.isOver18())
-            viewHolder.thumbnailIV.setImageResource(R.drawable.ic_nsfw_icon);
-        else if (sm.getThumbnail().equals("self"))
-            viewHolder.thumbnailIV.setImageResource(R.drawable.ic_self_icon);
-        else if (sm.getThumbnail().equals("default"))
-            viewHolder.thumbnailIV.setImageResource(R.drawable.ic_link_icon);
-        else if (sm.getThumbnail().equals("image"))
-            viewHolder.thumbnailIV.setImageResource(R.drawable.ic_link_icon);
-        else {
-            final Picasso picasso = Picasso.with(context);
-            picasso.setIndicatorsEnabled(true);
-            picasso.load(sm.getThumbnail()).networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(viewHolder.thumbnailIV, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                        }
+            thumbnailURL = "nsfw";
+        else
+            thumbnailURL = sm.getThumbnail();
 
-                        @Override
-                        public void onError() {
-                            picasso.load(sm.getThumbnail()).into(viewHolder.thumbnailIV);
-                        }
-                    });
-        }
+        /* Using Picasso...
+        final Picasso picasso = Picasso.with(context);
+        picasso.setIndicatorsEnabled(true);
+        picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
+
+        // Required to access width and height measures
+        viewHolder.thumbnailIV.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = viewHolder.thumbnailIV.getMeasuredWidth();
+                int height = viewHolder.thumbnailIV.getMeasuredHeight();
+                BitmapDownloadTask downloader = new BitmapDownloadTask(context,
+                        viewHolder.thumbnailIV, width, height, 4);
+
+                // Allow multiple tasks to run in parallel
+                downloader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, thumbnailURL);
+            }
+        });
 
         long time = sm.getCreated();
         long now = System.currentTimeMillis();
