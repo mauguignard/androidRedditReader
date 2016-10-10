@@ -62,7 +62,7 @@ public class NewsActivity extends AppCompatActivity {
             swipeContainer.setRefreshing(true);
         }
 
-        final ListView PostsLV = (ListView) findViewById(R.id.subredditListView);
+        final ListView PostsLV = (ListView) findViewById(R.id.postsListView);
         PostsLV.setAdapter(adapter);
 
         final LinearLayout progressBarFooter = (LinearLayout) getLayoutInflater().inflate(
