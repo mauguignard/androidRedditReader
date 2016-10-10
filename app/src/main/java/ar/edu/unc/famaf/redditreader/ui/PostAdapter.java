@@ -8,12 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.ImageLoader;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
@@ -103,20 +103,9 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         if (!sm.getDomain().equals(String.format("self.%1$s", sm.getSubreddit())))
             viewHolder.bottomTV.append(String.format(" • %1$s", sm.getDomain()));
 
-        final String thumbnailURL;
-        if (sm.isOver18())
-            thumbnailURL = "nsfw";
-        else
-            thumbnailURL = sm.getThumbnail();
+        ImageView thumbnailIV = (ImageView) viewHolder.thumbnailRL.getChildAt(0);
 
-        /* Using Picasso...
-        final Picasso picasso = Picasso.with(context);
-        picasso.setIndicatorsEnabled(true);
-        picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
-
-        // Required to access width and height measures
-        ImageLoader loader = new ImageLoader(context, viewHolder.thumbnailRL, 4);
-        loader.load(thumbnailURL);
+        thumbnailIV.setImageResource(Integer.parseInt(sm.getThumbnail()));
 
         long time = sm.getCreated();
         long now = System.currentTimeMillis();

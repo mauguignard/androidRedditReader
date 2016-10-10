@@ -1,15 +1,9 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.JSONDownloadTask;
-import ar.edu.unc.famaf.redditreader.ui.PostAdapter;
+import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 /**
@@ -22,75 +16,67 @@ public class Backend {
         return ourInstance;
     }
 
-    private static final int LIMIT = 25;
-
     private final List<PostModel> mLstPostsModel;
-    private PostAdapter adapter;
 
     private Backend() {
         mLstPostsModel = new ArrayList<>();
-    }
 
-    public List<PostModel> getLst() {
-        return mLstPostsModel;
-    }
-
-    public void setAdapter(PostAdapter adapter) {
-        this.adapter = adapter;
-    }
-
-    public void getTopPosts() {
-        getTopPosts(false);
-    }
-
-    public void getNextTopPosts() {
-        getTopPosts(true);
-    }
-
-    private void getTopPosts(final boolean append) {
-        String after = null;
-
-        if (append && !mLstPostsModel.isEmpty())
-            after = mLstPostsModel.get(mLstPostsModel.size() - 1).getName();
-
-        JSONDownloadTask downloader = new JSONDownloadTask() {
-            @Override
-            protected void onPostExecute(JSONObject result) {
-                try {
-                    JSONObject data = result.getJSONObject("data");
-                    JSONArray children = data.getJSONArray("children");
-
-                    if (!append)
-                        mLstPostsModel.clear();
-
-                    for (int i = 0; i < children.length(); i++) {
-                        JSONObject child = children.getJSONObject(i);
-                        JSONObject childData = child.getJSONObject("data");
-
-                        PostModel item = new PostModel(childData);
-                        mLstPostsModel.add(item);
-
-                        if (adapter != null)
-                            adapter.notifyDataSetChanged();
-                    }
-
-                    Log.i("JSON", String.format("Read %1$d objects.", children.length()));
-                }catch (Exception e) {
-                    Log.e("JSON_ERROR", "Unable to parse JSON object");
-                    if (e.getMessage() != null) {
-                        Log.e("JSON_ERROR", e.getMessage());
-                    }
-                    e.printStackTrace();
-                }
-            }
+        String[] domains = {
+                "i.imgur.com", "i.imgur.com", "aclu.org", "ibtimes.co.uk", "imgur.com"
         };
 
-        String url = "https://www.reddit.com/top/.json?&limit=" + Integer.toString(LIMIT);
+        String[] subreddits = {
+                "funny", "aww", "EvangelionUnit00", "worldnews", "gifs"
+        };
 
-        if (after != null)
-            url += "&after=" + after;
+        Integer[] gilded = {
+                0, 0, 5, 0, 2
+        };
 
-        downloader.execute(url);
+        String[] authors = {
+                "bengaldude545", "rahul8aggarwal", "el_matto", "SparklyPen", "SlimJones123"
+        };
+
+        String[] thumbnails = {
+                Integer.toString(R.drawable.thumbnail1),
+                Integer.toString(R.drawable.thumbnail2),
+                Integer.toString(R.drawable.thumbnail3),
+                Integer.toString(R.drawable.ic_self_icon),
+                Integer.toString(R.drawable.thumbnail5)
+        };
+
+        Long[] created = {
+                1476098795L, 1476139970L, 1476100953L, 1476110887L, 1476099541L
+        };
+
+        String[] titles = {
+                "Bird thinks guy is a tree",
+                "Henceforth, he lived happily ever after...",
+                "TIL Thousands of prisoners were abandoned in Orleans Parish Prison during Hurricane Katrina where the water and sewage rose up to neck deep. They went days without food, water or ventilation.",
+                "Philippines President Duterte orders US forces out after 65 years: 'Do not treat us like a doormat'",
+                "Looks like we got another stow away"
+        };
+
+        Integer[] noComments = {
+                1180, 882, 1134, 5179, 1191
+        };
+
+        for (int i = 0; i < 5; i++) {
+            PostModel item = new PostModel();
+            item.setDomain(domains[i]);
+            item.setSubreddit(subreddits[i]);
+            item.setGilded(gilded[i]);
+            item.setAuthor(authors[i]);
+            item.setThumbnail(thumbnails[i]);
+            item.setCreated(created[i]);
+            item.setTitle(titles[i]);
+            item.setNoComments(noComments[i]);
+            mLstPostsModel.add(item);
+        }
+    }
+
+    public List<PostModel> getTopPosts() {
+        return mLstPostsModel;
     }
 
 }

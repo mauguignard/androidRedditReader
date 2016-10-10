@@ -9,9 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import ar.edu.unc.famaf.redditreader.R;
@@ -31,13 +28,6 @@ public class NewsActivity extends AppCompatActivity {
 
         final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Backend.getInstance().getTopPosts();
-            }
-        });
-
         swipeContainer.setColorSchemeResources(R.color.flairNoPress,
                 R.color.flairPress6,
                 R.color.flairPress5,
@@ -46,58 +36,18 @@ public class NewsActivity extends AppCompatActivity {
                 R.color.flairPress2,
                 R.color.flairPress1);
 
-
-        PostAdapter adapter = new PostAdapter(this, R.layout.post_row,
-                Backend.getInstance().getLst()) {
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void notifyDataSetChanged() {
-                super.notifyDataSetChanged();
+            public void onRefresh() {
                 swipeContainer.setRefreshing(false);
             }
-        };
-
-        Backend.getInstance().setAdapter(adapter);
-
-        if (Backend.getInstance().getLst().isEmpty()) {
-            Backend.getInstance().getTopPosts();
-            swipeContainer.setRefreshing(true);
-        }
-
-        final ListView PostsLV = (ListView) findViewById(R.id.postsListView);
-
-        // Add dummy footer to avoid crash in API 16
-        PostsLV.addFooterView(new View(this.getBaseContext()));
-        PostsLV.setAdapter(adapter);
-
-        final LinearLayout progressBarFooter = (LinearLayout) getLayoutInflater().inflate(
-                R.layout.progress_bar_footer, null, false);
-
-        PostsLV.setOnScrollListener(new AbsListView.OnScrollListener() {
-            private static final int THRESHOLD = 5;
-            private int previousTotal = 0;
-            private boolean loading = true;
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                                 int totalItemCount) {
-                if (loading) {
-                    if (Math.abs(totalItemCount - previousTotal) >= 5) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                        PostsLV.removeFooterView(progressBarFooter);
-                    }
-                } else if (totalItemCount - visibleItemCount <= firstVisibleItem + THRESHOLD) {
-                    Backend.getInstance().getNextTopPosts();
-                    loading = true;
-                    PostsLV.addFooterView(progressBarFooter);
-                }
-            }
         });
+
+        PostAdapter adapter = new PostAdapter(this, R.layout.post_row,
+                Backend.getInstance().getTopPosts());
+
+        ListView PostsLV = (ListView) findViewById(R.id.postsListView);
+        PostsLV.setAdapter(adapter);
     }
 
     @Override
