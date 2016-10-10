@@ -126,7 +126,7 @@ public class ImageLoader {
             });
         }
 
-        public void softCancel() {
+        void softCancel() {
             mCancelled = true;
         }
 
