@@ -86,7 +86,7 @@ public class NewsActivity extends AppCompatActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
                                  int totalItemCount) {
                 if (loading) {
-                    if (Math.abs(totalItemCount - previousTotal) >= 5) {
+                    if (Math.abs(totalItemCount - previousTotal) >= THRESHOLD) {
                         loading = false;
                         previousTotal = totalItemCount;
                         PostsLV.removeFooterView(progressBarFooter);
