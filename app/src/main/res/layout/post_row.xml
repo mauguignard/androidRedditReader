@@ -60,8 +60,6 @@
             android:maxLines="1"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
             android:textSize="13sp"
             android:textColor="@color/goldenYellow"
             android:fontFamily="sans-serif-condensed"/>
@@ -73,6 +71,8 @@
             tools:text="3 hs ago"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:textSize="13sp"
             android:fontFamily="sans-serif-condensed"/>
 
