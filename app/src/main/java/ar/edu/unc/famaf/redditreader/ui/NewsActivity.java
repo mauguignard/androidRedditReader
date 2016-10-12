@@ -1,6 +1,7 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -65,8 +66,10 @@ public class NewsActivity extends AppCompatActivity {
 
         final ListView PostsLV = (ListView) findViewById(R.id.postsListView);
 
-        // Add dummy footer to avoid crash in API 16
-        PostsLV.addFooterView(new View(this.getBaseContext()));
+        // Add dummy footer to avoid crash before API 19
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            PostsLV.addFooterView(new View(this.getBaseContext()));
+        }
         PostsLV.setAdapter(adapter);
 
         final LinearLayout progressBarFooter = (LinearLayout) getLayoutInflater().inflate(
