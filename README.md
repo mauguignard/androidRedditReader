@@ -46,3 +46,22 @@ This project is being carried out by [Mauricio Guignard](https://github.com/maug
 * Create a _ar.edu.unc.famaf.redditreader.ui.PostAdapter_ class that extends android.widget.ArrayAdapter and re-implement the necessary methods
 * NewsActivityFragment should show a ListView occupying all the space available and must display the contents of each of the posts following the design implemented in the previous activity _LayoutAssignment_. Keep in mind that the title should always be displayed and the height of each row should be adjusted to allow it
 * Implement a ViewHolder in the _ar.edu.unc.famaf.redditreader.ui.PostAdapter_ class to improve the performance of the ListView
+
+## ThreadsAssignment | Step 4
+
+### Objetives
+
+* Implement an AsyncTask within the ListView to download the _thumbnails_ from Internet
+
+### Prerequisites
+
+* Having completed the AdaptersAssignment activity
+
+### Statement
+
+* The class _ar.edu.unc.famaf.redditreader.ui.PostAdapter_ should implement an AsyncTask that given an URL previously defined in the _ar.edu.unc.famaf.redditreader.model.PostModel_ class, allows to download the image and displays it in the ImageView representative of the _image preview / thumbnail_
+* An animated _android.widget.ProgressBar_ must be shown while the image is being downloaded
+
+## Licence
+
+* [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)
