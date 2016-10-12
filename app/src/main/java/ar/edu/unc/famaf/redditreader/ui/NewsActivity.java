@@ -59,12 +59,15 @@ public class NewsActivity extends AppCompatActivity {
 
         Backend.getInstance().setAdapter(adapter);
 
+        final ListView PostsLV = (ListView) findViewById(R.id.postsListView);
+
+
         if (Backend.getInstance().getLst().isEmpty()) {
             Backend.getInstance().getTopPosts();
             swipeContainer.setRefreshing(true);
+        } else {
+            PostsLV.setLayoutAnimation(null);
         }
-
-        final ListView PostsLV = (ListView) findViewById(R.id.postsListView);
 
         // Add dummy footer to avoid crash before API 19
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
