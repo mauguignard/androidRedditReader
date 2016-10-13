@@ -64,7 +64,9 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.post_row, parent, false);
+        }
 
+        if (convertView.getTag() == null) {
             viewHolder = new ViewHolderItem();
             viewHolder.subredditByAuthorTV = (TextView) convertView.findViewById(R.id.postSubredditByAuthor);
             viewHolder.gildedTV = (TextView) convertView.findViewById(R.id.postGilded);
