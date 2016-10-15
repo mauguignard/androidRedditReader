@@ -8,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -30,7 +31,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         TextView titleTV;
         TextView bottomTV;
         TextView dateTV;
-        RelativeLayout thumbnailRL;
+        ImageView thumbnailIV;
+        ProgressBar thumbnailPB;
     }
 
     public PostAdapter(Context context, int resource, List<PostModel> lst) {
@@ -73,7 +75,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             viewHolder.titleTV = (TextView) convertView.findViewById(R.id.postTitle);
             viewHolder.bottomTV = (TextView) convertView.findViewById(R.id.postBottom);
             viewHolder.dateTV = (TextView) convertView.findViewById(R.id.postDate);
-            viewHolder.thumbnailRL = (RelativeLayout) convertView.findViewById(R.id.postThumbnail);
+            viewHolder.thumbnailIV = (ImageView) convertView.findViewById(R.id.postThumbnailIV);
+            viewHolder.thumbnailPB = (ProgressBar) convertView.findViewById(R.id.postThumbnailPB);
 
             convertView.setTag(viewHolder);
         } else {
@@ -117,7 +120,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
 
         // Required to access width and height measures
-        ImageLoader loader = new ImageLoader(context, viewHolder.thumbnailRL, 4);
+        ImageLoader loader = new ImageLoader(
+                context, viewHolder.thumbnailIV, viewHolder.thumbnailPB, 4);
         loader.load(thumbnailURL);
 
         long time = sm.getCreated();

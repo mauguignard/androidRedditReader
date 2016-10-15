@@ -13,12 +13,12 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/postThumbnail">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:id="@+id/postThumbnailIV"
             tools:src="@mipmap/ic_launcher"
             android:scaleType="center" />
 
@@ -26,6 +26,7 @@
             layout="@layout/progress_bar"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:id="@+id/postThumbnailPB"
             android:layout_centerInParent="true"
             android:visibility="gone"/>
     </RelativeLayout>

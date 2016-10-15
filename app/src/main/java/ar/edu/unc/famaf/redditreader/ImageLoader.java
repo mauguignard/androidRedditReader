@@ -23,7 +23,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,22 +45,8 @@ public class ImageLoader {
     // Radius in DP to apply in getRoundedCornerBitmap()
     final private int mRadiusInDP;
 
-    public ImageLoader(@NonNull Context context, @NonNull RelativeLayout relativeLayout,
+    public ImageLoader(@NonNull Context context, ImageView thumbnailIV, ProgressBar progressBar,
                        int radiusInDP) {
-        ImageView thumbnailIV;
-        ProgressBar progressBar;
-
-        if (relativeLayout.getChildCount() != 2)
-            throw new IllegalArgumentException("The RelativeLayout should only contain 2 views");
-
-        try {
-            thumbnailIV = (ImageView) relativeLayout.getChildAt(0);
-            progressBar = (ProgressBar) relativeLayout.getChildAt(1);
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException(
-                    "The children of the RelativeLayout must be an ImageView and a ProgressBar");
-        }
-
         this.mContext = context;
         this.mImageView = thumbnailIV;
         this.mProgressBar = progressBar;
