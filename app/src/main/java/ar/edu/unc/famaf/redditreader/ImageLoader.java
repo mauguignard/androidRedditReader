@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import ar.edu.unc.famaf.redditreader.cache.BitmapCache;
@@ -117,6 +118,7 @@ public class ImageLoader {
 
         protected Bitmap doInBackground(String ... urls) {
             String url = urls[0];
+            HttpURLConnection connection = null;
             InputStream is = null;
 
             Bitmap result = BitmapCache.getInstance().getBitmapFromDiskCache(url);
@@ -136,7 +138,17 @@ public class ImageLoader {
                             result = decodeVectorResource(R.drawable.ic_image_icon);
                             break;
                         default:
-                            is = new URL(url).openConnection().getInputStream();
+                            connection = (HttpURLConnection) new URL(url).openConnection();
+                            connection.setDoInput(true);
+                            connection.connect();
+
+                            // expect HTTP 200 OK
+                            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                                throw new Exception(String.format("Server returned HTTP %1$s: %2$s",
+                                        connection.getResponseCode(), connection.getResponseMessage()));
+                            }
+
+                            is = connection.getInputStream();
                             Bitmap bmp = BitmapFactory.decodeStream(is);
 
                             if (bmp == null) {
@@ -166,6 +178,9 @@ public class ImageLoader {
 
                     return null;
                 } finally {
+                    if (connection != null)
+                        connection.disconnect();
+
                     if (is != null) {
                         try {
                             is.close();
