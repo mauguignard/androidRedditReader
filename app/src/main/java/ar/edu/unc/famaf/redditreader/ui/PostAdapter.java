@@ -121,7 +121,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         picasso.setIndicatorsEnabled(true);
         picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
 
-        // Using custom ImageLoader
+        // Load Bitmap using custom AsyncTask (ImageLoader)
         ImageLoader loader = new ImageLoader(
                 context, viewHolder.thumbnailIV, viewHolder.thumbnailPB, 4);
         loader.load(thumbnailURL);
