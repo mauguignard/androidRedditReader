@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ar.edu.unc.famaf.redditreader.R;
+import ar.edu.unc.famaf.redditreader.backend.ImageLoader;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 /**
@@ -109,7 +110,10 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         if (!sm.getDomain().equals(String.format("self.%1$s", sm.getSubreddit())))
             viewHolder.bottomTV.append(String.format(" • %1$s", sm.getDomain()));
 
-        viewHolder.thumbnailIV.setImageResource(Integer.parseInt(sm.getThumbnail()));
+        // Load Bitmap using custom AsyncTask (ImageLoader)
+        ImageLoader loader = new ImageLoader(
+                context, viewHolder.thumbnailIV, viewHolder.thumbnailPB, 4);
+        loader.load(sm.getThumbnail());
 
         long time = sm.getCreated();
         long now = System.currentTimeMillis();

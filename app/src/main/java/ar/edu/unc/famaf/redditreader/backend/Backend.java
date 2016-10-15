@@ -3,7 +3,6 @@ package ar.edu.unc.famaf.redditreader.backend;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 /**
@@ -38,11 +37,11 @@ public class Backend {
         };
 
         String[] thumbnails = {
-                Integer.toString(R.drawable.thumbnail1),
-                Integer.toString(R.drawable.thumbnail2),
-                Integer.toString(R.drawable.thumbnail3),
-                Integer.toString(R.drawable.ic_self_icon),
-                Integer.toString(R.drawable.thumbnail5)
+                "https://a.thumbs.redditmedia.com/0e0cKrikx0u2EeCT6Di9LgLXrE2WVICdJpAw1Tj4Ka8.jpg",
+                "https://a.thumbs.redditmedia.com/1xJJxofAvAglF0XsQzx0z-kI-NcXf62wLaH5VLkEcc0.jpg",
+                "https://a.thumbs.redditmedia.com/-lxzJ-Mr8wYkdbL8thyqkrAAgkzvBeABmr4IngqVXg8.jpg",
+                "self",
+                "https://b.thumbs.redditmedia.com/_gxcq7uLcFHkAmCvBf9hLQ-wMDMgTYBuXtRGZsixL2w.jpg"
         };
 
         Long[] created = {
