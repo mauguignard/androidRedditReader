@@ -15,7 +15,6 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Locale;
 
-import ar.edu.unc.famaf.redditreader.ImageLoader;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
@@ -110,21 +109,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         if (!sm.getDomain().equals(String.format("self.%1$s", sm.getSubreddit())))
             viewHolder.bottomTV.append(String.format(" • %1$s", sm.getDomain()));
 
-        final String thumbnailURL;
-        if (sm.isOver18())
-            thumbnailURL = "nsfw";
-        else
-            thumbnailURL = sm.getThumbnail();
-
-        /* Using Picasso...
-        final Picasso picasso = Picasso.with(context);
-        picasso.setIndicatorsEnabled(true);
-        picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
-
-        // Using custom ImageLoader
-        ImageLoader loader = new ImageLoader(
-                context, viewHolder.thumbnailIV, viewHolder.thumbnailPB, 4);
-        loader.load(thumbnailURL);
+        viewHolder.thumbnailIV.setImageResource(Integer.parseInt(sm.getThumbnail()));
 
         long time = sm.getCreated();
         long now = System.currentTimeMillis();
