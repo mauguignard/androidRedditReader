@@ -26,7 +26,7 @@ public class BitmapCache {
     private boolean mDiskCacheStarting = true;
     private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
     private static final String DISK_CACHE_SUBDIR = "thumbnails";
-    private static final long DISK_CACHE_MAX_TIME = 7*24*60*60*1000L; // One week
+    private static final long DISK_CACHE_MAX_TIME = 7 * 24 * 60 * 60 * 1000L; // One week
 
     private BitmapCache() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
@@ -37,8 +37,7 @@ public class BitmapCache {
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
-                // The cache size will be measured in kilobytes rather than
-                // number of items.
+                // The cache size will be measured in kilobytes rather than number of items.
                 return bitmap.getByteCount() / 1024;
             }
         };
