@@ -163,6 +163,8 @@ public class ImageLoader {
                     Log.e(LOG_TAG, msg);
                     Log.e(LOG_TAG, "URL = " + url);
                     e.printStackTrace();
+
+                    return null;
                 } finally {
                     if (is != null) {
                         try {
