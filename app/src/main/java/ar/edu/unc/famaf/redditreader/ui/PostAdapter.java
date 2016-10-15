@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import ar.edu.unc.famaf.redditreader.ImageLoader;
 import ar.edu.unc.famaf.redditreader.R;
@@ -35,7 +36,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         ProgressBar thumbnailPB;
     }
 
-    public PostAdapter(Context context, int resource, List<PostModel> lst) {
+    PostAdapter(Context context, int resource, List<PostModel> lst) {
         super(context, resource);
         this.mLstPostsModel = lst;
         this.context = context;
@@ -96,7 +97,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
         if (sm.getGilded() > 0) {
             viewHolder.gildedTV.setVisibility(View.VISIBLE);
-            viewHolder.gildedTV.setText(String.format("★%1$d", sm.getGilded()));
+            viewHolder.gildedTV.setText(String.format(Locale.US, "★%1$d", sm.getGilded()));
         } else {
             viewHolder.gildedTV.setVisibility(View.GONE);
         }
@@ -119,7 +120,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         picasso.setIndicatorsEnabled(true);
         picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
 
-        // Required to access width and height measures
+        // Using custom ImageLoader
         ImageLoader loader = new ImageLoader(
                 context, viewHolder.thumbnailIV, viewHolder.thumbnailPB, 4);
         loader.load(thumbnailURL);
