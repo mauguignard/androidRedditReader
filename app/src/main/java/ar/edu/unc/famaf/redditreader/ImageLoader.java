@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.URL;
+import java.util.Locale;
 
 import ar.edu.unc.famaf.redditreader.cache.BitmapCache;
 
@@ -133,58 +134,68 @@ public class ImageLoader {
         protected Bitmap doInBackground(String ... urls) {
             String url = urls[0];
             InputStream is = null;
-            Bitmap result = null;
 
-            try {
-                switch (url) {
-                    case "nsfw":
-                        result = decodeVectorResource(R.drawable.ic_nsfw_icon);
-                        break;
-                    case "self":
-                        result = decodeVectorResource(R.drawable.ic_self_icon);
-                        break;
-                    case "default":
-                        result = decodeVectorResource(R.drawable.ic_link_icon);
-                        break;
-                    case "image":
-                        result = decodeVectorResource(R.drawable.ic_image_icon);
-                        break;
-                    default:
-                        is = new URL(url).openConnection().getInputStream();
-                        Bitmap bmp = BitmapFactory.decodeStream(is);
+            Bitmap result = BitmapCache.getInstance().getBitmapFromDiskCache(url);
+            if (result == null) {
+                try {
+                    switch (url) {
+                        case "nsfw":
+                            result = decodeVectorResource(R.drawable.ic_nsfw_icon);
+                            break;
+                        case "self":
+                            result = decodeVectorResource(R.drawable.ic_self_icon);
+                            break;
+                        case "default":
+                            result = decodeVectorResource(R.drawable.ic_link_icon);
+                            break;
+                        case "image":
+                            result = decodeVectorResource(R.drawable.ic_image_icon);
+                            break;
+                        default:
+                            is = new URL(url).openConnection().getInputStream();
+                            Bitmap bmp = BitmapFactory.decodeStream(is);
 
-                        if (bmp == null) {
-                            if (isCancelled() || mCancelled) {
-                                return null;
-                            } else {
-                                throw new UnknownError("There was an error when decoding the stream");
+                            if (bmp == null) {
+                                if (isCancelled() || mCancelled) {
+                                    return null;
+                                } else {
+                                    throw new UnknownError(
+                                            "There was an error when decoding the stream");
+                                }
                             }
+
+                            // Resize Bitmap to ImageView size to reduce Memory usage
+                            result = getResizedBitmap(bmp);
+
+                            // Save Bitmap to Disk Cache
+                            BitmapCache.getInstance().addBitmapToDiskCache(url, result);
+
+                            // Apply some fancy rounded corners to Bitmap
+                            result = getRoundedCornerBitmap(result);
+                            break;
+                    }
+                } catch (Exception e) {
+                    String msg = (e.getMessage() == null) ? "Unexpected error!" : e.getMessage();
+                    Log.e(LOG_TAG, msg);
+                    Log.e(LOG_TAG, "URL = " + url);
+                    e.printStackTrace();
+                } finally {
+                    if (is != null) {
+                        try {
+                            is.close();
+                        } catch (IOException e) {
+                            Log.e(LOG_TAG, "Unexpected error when closing InputStream");
                         }
-
-                        // Resize Bitmap to ImageView size to reduce Memory usage
-                        result = getResizedBitmap(bmp);
-
-                        // Apply some fancy rounded corners to Bitmap
-                        result = getRoundedCornerBitmap(result);
-                        break;
-                }
-
-                // Save Bitmap to Cache
-                BitmapCache.getInstance().addBitmapToMemoryCache(url, result);
-            } catch (Exception e) {
-                String msg = (e.getMessage() == null) ? "Unexpected error!" : e.getMessage();
-                Log.e(LOG_TAG, msg);
-                Log.e(LOG_TAG, "URL = " + url);
-                e.printStackTrace();
-            } finally {
-                if (is != null) {
-                    try {
-                        is.close();
-                    } catch(IOException e) {
-                        Log.e(LOG_TAG, "Unexpected error when closing InputStream");
                     }
                 }
+            } else {
+                // Apply some fancy rounded corners to Bitmap
+                result = getRoundedCornerBitmap(result);
             }
+
+            // Save Bitmap to Memory Cache
+            BitmapCache.getInstance().addBitmapToMemoryCache(url, result);
+
             return result;
         }
 

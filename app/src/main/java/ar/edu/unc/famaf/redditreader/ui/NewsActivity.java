@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
+import ar.edu.unc.famaf.redditreader.cache.BitmapCache;
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -29,6 +30,9 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Initialize Bitmap Disk Cache
+        BitmapCache.getInstance().initDiskCache(getApplicationContext());
 
         final SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
