@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Locale;
 
-import ar.edu.unc.famaf.redditreader.backend.ImageLoader;
+import ar.edu.unc.famaf.redditreader.backend.BitmapLoader;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
@@ -121,8 +121,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         picasso.setIndicatorsEnabled(true);
         picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
 
-        // Load Bitmap using custom AsyncTask (ImageLoader)
-        ImageLoader loader = new ImageLoader(
+        // Load Bitmap using custom AsyncTask (BitmapLoader)
+        BitmapLoader loader = new BitmapLoader(
                 context, viewHolder.thumbnailIV, viewHolder.thumbnailPB, 4);
         loader.load(thumbnailURL);
 

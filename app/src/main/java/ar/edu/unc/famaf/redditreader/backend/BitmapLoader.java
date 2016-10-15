@@ -37,7 +37,7 @@ import ar.edu.unc.famaf.redditreader.cache.BitmapCache;
  * Created by mauguignard on 10/8/16.
  */
 
-public class ImageLoader {
+public class BitmapLoader {
     final private Context mContext;
 
     final private ImageView mImageView;
@@ -46,8 +46,8 @@ public class ImageLoader {
     // Radius in DP to apply in getRoundedCornerBitmap()
     final private int mRadiusInDP;
 
-    public ImageLoader(@NonNull Context context, ImageView thumbnailIV, ProgressBar progressBar,
-                       int radiusInDP) {
+    public BitmapLoader(@NonNull Context context, ImageView thumbnailIV, ProgressBar progressBar,
+                        int radiusInDP) {
         this.mContext = context;
         this.mImageView = thumbnailIV;
         this.mProgressBar = progressBar;
