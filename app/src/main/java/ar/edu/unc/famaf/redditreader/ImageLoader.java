@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.URL;
-import java.util.Locale;
 
 import ar.edu.unc.famaf.redditreader.cache.BitmapCache;
 
