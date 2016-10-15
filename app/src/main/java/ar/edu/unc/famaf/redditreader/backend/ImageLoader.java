@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.backend;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -30,6 +30,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.cache.BitmapCache;
 
 /**

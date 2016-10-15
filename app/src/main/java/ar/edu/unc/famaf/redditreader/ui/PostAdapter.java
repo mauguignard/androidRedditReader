@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Locale;
 
-import ar.edu.unc.famaf.redditreader.ImageLoader;
+import ar.edu.unc.famaf.redditreader.backend.ImageLoader;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
