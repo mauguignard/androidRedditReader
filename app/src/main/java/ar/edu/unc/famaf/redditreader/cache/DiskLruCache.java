@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -26,10 +25,10 @@ class DiskLruCache<ValueType> {
 
     // Hold info about the cached data for fast lookup.
     private class Entry {
-        String hash;
-        File file;
-        long byteCount;
-        long modificationTime;
+        final String hash;
+        final File file;
+        final long byteCount;
+        final long modificationTime;
 
         Entry(String hash, File file, long byteCount, long modificationTime) {
             this.hash = hash;
@@ -39,12 +38,12 @@ class DiskLruCache<ValueType> {
         }
     }
 
-    private File mDirectory;
-    private CachePolicy<ValueType> mCachePolicy;
+    private final File mDirectory;
+    private final CachePolicy<ValueType> mCachePolicy;
 
     private long mCurrentSize;
-    private long mMaxSize;
-    private long mMaxTime;
+    private final long mMaxSize;
+    private final long mMaxTime;
 
     private LinkedHashMap<String, Entry> mLruEntries;
 
@@ -157,7 +156,8 @@ class DiskLruCache<ValueType> {
         File output = new File(mDirectory, hash);
         try {
             // Try to write the file.
-            mCachePolicy.write(output, data);
+            if (!mCachePolicy.write(output, data))
+                return false;
         } catch (IOException e) {
             return false;
         }

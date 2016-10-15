@@ -24,7 +24,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
  */
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> mLstPostsModel = null;
-    private Context context;
+    private final Context context;
 
     static class ViewHolderItem {
         TextView subredditByAuthorTV;
@@ -92,6 +92,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             viewHolder.subredditByAuthorTV.setText(Html.fromHtml(r,Html.FROM_HTML_MODE_LEGACY));
         } else {
+            //noinspection deprecation
             viewHolder.subredditByAuthorTV.setText(Html.fromHtml(r));
         }
 

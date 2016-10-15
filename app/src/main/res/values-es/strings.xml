@@ -2,7 +2,6 @@
 <resources>
     <string name="action_sign_in">Iniciar sesión o Registrarse</string>
     <string name="action_sign_in_short">Iniciar sesión</string>
-    <string name="action_sign_out">Cerrar sesión</string>
     <string name="error_field_required">Este campo es obligatorio</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_invalid_email">La dirección de email is inválida</string>

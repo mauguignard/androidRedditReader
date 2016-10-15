@@ -13,13 +13,14 @@ import java.io.File;
  * Code from: https://developer.android.com/training/displaying-bitmaps/cache-bitmap.html
  */
 public class BitmapCache {
-    private static BitmapCache ourInstance = new BitmapCache();
+    private static final String LOG_TAG = "BitmapCache";
+    private static final BitmapCache ourInstance = new BitmapCache();
 
     public static BitmapCache getInstance() {
         return ourInstance;
     }
 
-    private LruCache<String, Bitmap> mMemoryCache;
+    private final LruCache<String, Bitmap> mMemoryCache;
 
     private DiskLruCache<Bitmap> mDiskLruCache;
     private final Object mDiskCacheLock = new Object();
@@ -73,7 +74,8 @@ public class BitmapCache {
 
     public void addBitmapToDiskCache(String key, Bitmap bitmap) {
         if (mDiskLruCache != null && mDiskLruCache.get(key) == null) {
-                mDiskLruCache.put(key, bitmap);
+                if (!mDiskLruCache.put(key, bitmap))
+                    Log.e(LOG_TAG, "Unable to add bitmap to DiskLruCache");
         }
     }
 
@@ -88,7 +90,7 @@ public class BitmapCache {
                 try {
                     mDiskCacheLock.wait();
                 } catch (InterruptedException e) {
-                    Log.e("BitmapCache", e.getMessage());
+                    Log.e(LOG_TAG, e.getMessage());
                 }
             }
             if (mDiskLruCache != null) {

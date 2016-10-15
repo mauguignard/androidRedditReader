@@ -90,8 +90,8 @@ public class ImageLoader {
         private static final String LOG_TAG = "BitmapDownloadTask";
 
         // WeakReference to prevent crash when ImageView and ProgressBar are for some reason gone
-        private WeakReference<ImageView> mImageViewReference;
-        private WeakReference<ProgressBar> mProgressBarReference;
+        private final WeakReference<ImageView> mImageViewReference;
+        private final WeakReference<ProgressBar> mProgressBarReference;
 
         // Width and height of the ImageView
         private int mWidth, mHeight;

@@ -13,8 +13,8 @@ import java.io.IOException;
  */
 
 class BitmapCachePolicy implements CachePolicy<Bitmap> {
-    private Bitmap.CompressFormat mFormat;
-    private int mQuality;
+    private final Bitmap.CompressFormat mFormat;
+    private final int mQuality;
 
     BitmapCachePolicy() {
         mFormat = Bitmap.CompressFormat.JPEG;

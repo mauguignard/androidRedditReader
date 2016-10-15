@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:id="@+id/subredditItem"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
     android:paddingTop="8dp"
@@ -20,7 +19,8 @@
             android:layout_height="60dp"
             android:id="@+id/postThumbnailIV"
             tools:src="@mipmap/ic_launcher"
-            android:scaleType="center" />
+            tools:ignore="ContentDescription"
+            android:scaleType="center"/>
 
         <include
             layout="@layout/progress_bar"
@@ -50,6 +50,7 @@
             android:ellipsize="end"
             android:textSize="13sp"
             android:textColor="#83180c"
+            tools:ignore="UnusedAttribute"
             android:fontFamily="sans-serif-condensed"/>
 
         <TextView
@@ -64,6 +65,7 @@
             android:layout_marginStart="5dp"
             android:textSize="13sp"
             android:textColor="@color/goldenYellow"
+            tools:ignore="UnusedAttribute"
             android:fontFamily="sans-serif-condensed"/>
 
         <TextView
@@ -76,6 +78,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:textSize="13sp"
+            tools:ignore="UnusedAttribute"
             android:fontFamily="sans-serif-condensed"/>
 
         <TextView
@@ -101,6 +104,7 @@
             android:drawableLeft="@drawable/ic_comment_icon"
             android:drawableStart="@drawable/ic_comment_icon"
             android:drawablePadding="3dp"
+            tools:ignore="UnusedAttribute"
             android:fontFamily="sans-serif-condensed"/>
 
     </RelativeLayout>

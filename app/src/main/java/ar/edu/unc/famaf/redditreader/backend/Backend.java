@@ -16,7 +16,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
  * Created by mauguignard on 9/29/16.
  */
 public class Backend {
-    private static Backend ourInstance = new Backend();
+    private static final Backend ourInstance = new Backend();
 
     public static Backend getInstance() {
         return ourInstance;
