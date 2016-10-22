@@ -3,6 +3,7 @@ package ar.edu.unc.famaf.redditreader.backend;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,6 +21,7 @@ abstract class GetPostsTask extends AsyncTask<String, Void, Listing> {
 
     @Override
     protected Listing doInBackground(String ... urls) {
+        InputStream is = null;
         Listing result = null;
 
         try {
@@ -35,13 +37,21 @@ abstract class GetPostsTask extends AsyncTask<String, Void, Listing> {
                         connection.getResponseCode(), connection.getResponseMessage()));
             }
 
-            InputStream is = connection.getInputStream();
+            is = connection.getInputStream();
             if (is != null)
                 result = Parser.readJsonStream(is);
         } catch (Exception e) {
             String msg = (e.getMessage() == null) ? "Unexpected error!" : e.getMessage();
             Log.e(LOG_TAG, msg);
             e.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "Unexpected error when closing InputStream");
+                }
+            }
         }
 
         return result;
