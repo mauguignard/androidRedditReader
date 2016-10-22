@@ -3,7 +3,6 @@ package ar.edu.unc.famaf.redditreader.backend;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -21,7 +20,6 @@ abstract class GetPostsTask extends AsyncTask<String, Void, Listing> {
 
     @Override
     protected Listing doInBackground(String ... urls) {
-        InputStream is = null;
         Listing result = null;
 
         try {
@@ -37,7 +35,7 @@ abstract class GetPostsTask extends AsyncTask<String, Void, Listing> {
                         connection.getResponseCode(), connection.getResponseMessage()));
             }
 
-            is = connection.getInputStream();
+            InputStream is = connection.getInputStream();
             if (is != null)
                 result = Parser.readJsonStream(is);
         } catch (Exception e) {
