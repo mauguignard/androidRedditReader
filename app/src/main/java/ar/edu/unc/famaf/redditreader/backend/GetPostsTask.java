@@ -21,11 +21,12 @@ abstract class GetPostsTask extends AsyncTask<String, Void, Listing> {
 
     @Override
     protected Listing doInBackground(String ... urls) {
+        HttpURLConnection connection = null;
         InputStream is = null;
         Listing result = null;
 
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(urls[0]).openConnection();
+            connection = (HttpURLConnection) new URL(urls[0]).openConnection();
             connection.setRequestMethod("GET");
             connection.addRequestProperty("User-Agent:", USER_AGENT);
 
@@ -45,6 +46,9 @@ abstract class GetPostsTask extends AsyncTask<String, Void, Listing> {
             Log.e(LOG_TAG, msg);
             e.printStackTrace();
         } finally {
+            if (connection != null)
+                connection.disconnect();
+
             if (is != null) {
                 try {
                     is.close();
