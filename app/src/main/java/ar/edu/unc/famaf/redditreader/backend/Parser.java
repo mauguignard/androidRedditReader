@@ -143,7 +143,10 @@ class Parser {
                     post.setCreated(reader.nextLong());
                     break;
                 case "link_flair_text":
-                    post.setLinkFlairText(reader.nextString());
+                    if (reader.peek() != JsonToken.NULL)
+                        post.setLinkFlairText(reader.nextString());
+                    else
+                        reader.skipValue();
                     break;
                 case "url":
                     post.setURL(reader.nextString());
