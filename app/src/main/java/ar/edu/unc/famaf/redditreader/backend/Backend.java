@@ -1,8 +1,13 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.Listing;
 import ar.edu.unc.famaf.redditreader.ui.PostAdapter;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
@@ -39,8 +44,10 @@ public class Backend {
             @Override
             void onError() {
                 /* Trigger swipeContainer.setRefreshing(false); */
-                if (mAdapter != null)
+                if (mAdapter != null) {
+                    showNoConnectionDialog();
                     mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -63,8 +70,10 @@ public class Backend {
             @Override
             void onError() {
                 /* Trigger swipeContainer.setRefreshing(false); */
-                if (mAdapter != null)
+                if (mAdapter != null) {
+                    showNoConnectionDialog();
                     mAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -76,4 +85,27 @@ public class Backend {
         };
     }
 
+    private void showNoConnectionDialog() {
+        Context context = mAdapter.getContext();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+        // Set Title
+        alertDialogBuilder.setTitle(context.getString(R.string.no_internet_connection));
+
+        // Set Dialog message
+        alertDialogBuilder
+                .setMessage(context.getString(R.string.unable_to_conn_reddit))
+                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.exit(0);
+                    }
+                });
+
+        // Create Alert Dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // Show it
+        alertDialog.show();
+    }
 }
