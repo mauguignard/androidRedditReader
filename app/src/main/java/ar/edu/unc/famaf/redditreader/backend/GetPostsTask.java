@@ -14,18 +14,19 @@ import ar.edu.unc.famaf.redditreader.model.Listing;
  * Created by mauguignard on 10/22/16.
  */
 
-abstract class GetPostsTask extends AsyncTask<String, Void, InputStream> {
+abstract class GetPostsTask extends AsyncTask<String, Void, Listing> {
     private static final String LOG_TAG = "GetPostsTask";
     private static final String USER_AGENT =
             "android:ar.edu.unc.famaf.redditreader:v1.0";
 
     @Override
-    protected InputStream doInBackground(String ... urls) {
+    protected Listing doInBackground(String ... urls) {
         InputStream is = null;
+        Listing result = null;
+
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(urls[0]).openConnection();
             connection.setRequestMethod("GET");
-            connection.getInputStream();
             connection.addRequestProperty("User-Agent:", USER_AGENT);
 
             connection.connect();
@@ -37,23 +38,26 @@ abstract class GetPostsTask extends AsyncTask<String, Void, InputStream> {
             }
 
             is = connection.getInputStream();
+            if (is != null)
+                result = Parser.readJsonStream(is);
         } catch (Exception e) {
             String msg = (e.getMessage() == null) ? "Unexpected error!" : e.getMessage();
             Log.e(LOG_TAG, msg);
             e.printStackTrace();
         }
 
-        return is;
+        return result;
     }
 
     @Override
-    protected void onPostExecute(InputStream result) {
-        try {
-            onSuccess(Parser.readJsonStream(result));
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "PARSER ERROR:" + e.getMessage());
-        }
+    protected void onPostExecute(Listing result) {
+        if (result != null)
+            onSuccess(result);
+        else
+            onError();
     }
 
+    abstract void onError();
     abstract void onSuccess(Listing result);
+
 }

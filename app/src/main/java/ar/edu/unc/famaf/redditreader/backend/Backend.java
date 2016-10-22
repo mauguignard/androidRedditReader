@@ -37,6 +37,11 @@ public class Backend {
     public void getTopPosts() {
         new GetTopPostsTask() {
             @Override
+            void onError() {
+                /* TODO */
+            }
+
+            @Override
             void onSuccess(Listing result) {
                 /* TODO */
             }
@@ -50,6 +55,11 @@ public class Backend {
             after = mLstPostsModel.get(mLstPostsModel.size() - 1).getName();
 
         new GetTopPostsTask(LIMIT, after) {
+            @Override
+            void onError() {
+                /* TODO */
+            }
+
             @Override
             void onSuccess(Listing result) {
                 /* TODO */

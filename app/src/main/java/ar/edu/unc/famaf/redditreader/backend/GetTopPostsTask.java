@@ -22,5 +22,6 @@ abstract class GetTopPostsTask extends GetPostsTask {
         super.execute(url);
     }
 
+    abstract void onError();
     abstract void onSuccess(Listing result);
 }
