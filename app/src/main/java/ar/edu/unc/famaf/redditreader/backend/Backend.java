@@ -1,14 +1,9 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.JSONDownloadTask;
+import ar.edu.unc.famaf.redditreader.model.Listing;
 import ar.edu.unc.famaf.redditreader.ui.PostAdapter;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
@@ -40,13 +35,29 @@ public class Backend {
     }
 
     public void getTopPosts() {
-        getTopPosts(false);
+        new GetTopPostsTask() {
+            @Override
+            void onSuccess(Listing result) {
+                /* TODO */
+            }
+        };
     }
 
     public void getNextTopPosts() {
-        getTopPosts(true);
+        String after = null;
+
+        if (!mLstPostsModel.isEmpty())
+            after = mLstPostsModel.get(mLstPostsModel.size() - 1).getName();
+
+        new GetTopPostsTask(LIMIT, after) {
+            @Override
+            void onSuccess(Listing result) {
+                /* TODO */
+            }
+        };
     }
 
+    /*
     private void getTopPosts(final boolean append) {
         String after = null;
 
@@ -92,5 +103,6 @@ public class Backend {
 
         downloader.execute(url);
     }
+    */
 
 }
