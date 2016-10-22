@@ -116,11 +116,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         else
             thumbnailURL = sm.getThumbnail();
 
-        /* Using Picasso...
-        final Picasso picasso = Picasso.with(context);
-        picasso.setIndicatorsEnabled(true);
-        picasso.load(thumbnailURL).into(viewHolder.thumbnailIV); */
-
         // Load Bitmap using custom AsyncTask (BitmapLoader)
         BitmapLoader loader = new BitmapLoader(
                 context, viewHolder.thumbnailIV, viewHolder.thumbnailPB, 4);
