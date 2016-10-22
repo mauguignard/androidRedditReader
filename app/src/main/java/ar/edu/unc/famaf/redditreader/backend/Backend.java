@@ -20,7 +20,7 @@ public class Backend {
     private static final int LIMIT = 25;
 
     private final List<PostModel> mLstPostsModel;
-    private PostAdapter adapter;
+    private PostAdapter mAdapter;
 
     private Backend() {
         mLstPostsModel = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Backend {
     }
 
     public void setAdapter(PostAdapter adapter) {
-        this.adapter = adapter;
+        mAdapter = adapter;
     }
 
     public void getTopPosts() {
@@ -39,16 +39,16 @@ public class Backend {
             @Override
             void onError() {
                 /* Trigger swipeContainer.setRefreshing(false); */
-                if (adapter != null)
-                    adapter.notifyDataSetChanged();
+                if (mAdapter != null)
+                    mAdapter.notifyDataSetChanged();
             }
 
             @Override
             void onSuccess(Listing result) {
                 mLstPostsModel.clear();
                 mLstPostsModel.addAll(result.getLstPostsModel());
-                if (adapter != null)
-                    adapter.notifyDataSetChanged();
+                if (mAdapter != null)
+                    mAdapter.notifyDataSetChanged();
             }
         };
     }
@@ -63,15 +63,15 @@ public class Backend {
             @Override
             void onError() {
                 /* Trigger swipeContainer.setRefreshing(false); */
-                if (adapter != null)
-                    adapter.notifyDataSetChanged();
+                if (mAdapter != null)
+                    mAdapter.notifyDataSetChanged();
             }
 
             @Override
             void onSuccess(Listing result) {
                 mLstPostsModel.addAll(result.getLstPostsModel());
-                if (adapter != null)
-                    adapter.notifyDataSetChanged();
+                if (mAdapter != null)
+                    mAdapter.notifyDataSetChanged();
             }
         };
     }
