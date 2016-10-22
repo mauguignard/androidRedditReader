@@ -30,6 +30,9 @@ abstract class GetPostsTask extends AsyncTask<String, Void, Listing> {
             connection.setRequestMethod("GET");
             connection.addRequestProperty("User-Agent:", USER_AGENT);
 
+            /* Set a timeout of one minute before cancelling download */
+            connection.setReadTimeout(60000);
+
             connection.connect();
 
             // Expect HTTP 200 OK
