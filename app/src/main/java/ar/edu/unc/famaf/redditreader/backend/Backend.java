@@ -1,8 +1,7 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,9 @@ public class Backend {
         new GetTopPostsTask() {
             @Override
             void onError() {
-                showNoConnectionDialog();
+                Toast toast = Toast.makeText(mContext,
+                        mContext.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
+                toast.show();
                 listener.nextPosts();
             }
 
@@ -65,7 +66,9 @@ public class Backend {
         new GetTopPostsTask(LIMIT, after) {
             @Override
             void onError() {
-                showNoConnectionDialog();
+                Toast toast = Toast.makeText(mContext,
+                        mContext.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
+                toast.show();
                 listener.nextPosts();
             }
 
@@ -75,28 +78,5 @@ public class Backend {
                 listener.nextPosts();
             }
         };
-    }
-
-    private void showNoConnectionDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-
-        // Set Title
-        alertDialogBuilder.setTitle(mContext.getString(R.string.no_internet_connection));
-
-        // Set Dialog message
-        alertDialogBuilder
-                .setMessage(mContext.getString(R.string.unable_to_conn_reddit))
-                .setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.exit(0);
-                    }
-                });
-
-        // Create Alert Dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // Show it
-        alertDialog.show();
     }
 }
