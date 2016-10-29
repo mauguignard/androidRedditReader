@@ -138,6 +138,9 @@ public class BitmapLoader {
                         case "image":
                             result = decodeVectorResource(R.drawable.ic_image_icon);
                             break;
+                        case "spoiler":
+                            result = decodeVectorResource(R.drawable.ic_spoiler_icon);
+                            break;
                         default:
                             connection = (HttpURLConnection) new URL(url).openConnection();
                             connection.setDoInput(true);
