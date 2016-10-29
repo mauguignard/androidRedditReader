@@ -127,19 +127,19 @@ public class BitmapLoader {
                 try {
                     switch (url) {
                         case "nsfw":
-                            result = decodeVectorResource(R.drawable.ic_nsfw_icon);
+                            result = decodeVectorResource(R.drawable.ic_nsfw);
                             break;
                         case "self":
-                            result = decodeVectorResource(R.drawable.ic_self_icon);
+                            result = decodeVectorResource(R.drawable.ic_self);
                             break;
                         case "default":
-                            result = decodeVectorResource(R.drawable.ic_link_icon);
+                            result = decodeVectorResource(R.drawable.ic_link);
                             break;
                         case "image":
-                            result = decodeVectorResource(R.drawable.ic_image_icon);
+                            result = decodeVectorResource(R.drawable.ic_image);
                             break;
                         case "spoiler":
-                            result = decodeVectorResource(R.drawable.ic_spoiler_icon);
+                            result = decodeVectorResource(R.drawable.ic_spoiler);
                             break;
                         default:
                             connection = (HttpURLConnection) new URL(url).openConnection();
