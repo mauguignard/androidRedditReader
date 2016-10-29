@@ -11,12 +11,9 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.util.List;
-
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
 import ar.edu.unc.famaf.redditreader.backend.PostsIteratorListener;
-import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 /**
  * A placeholder fragment containing a simple view.

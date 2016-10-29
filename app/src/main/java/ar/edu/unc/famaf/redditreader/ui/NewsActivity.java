@@ -1,22 +1,15 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import ar.edu.unc.famaf.redditreader.R;
-import ar.edu.unc.famaf.redditreader.backend.Backend;
 import ar.edu.unc.famaf.redditreader.cache.BitmapCache;
 
 public class NewsActivity extends AppCompatActivity {
