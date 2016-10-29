@@ -9,7 +9,6 @@ import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.Listing;
-import ar.edu.unc.famaf.redditreader.ui.PostAdapter;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 /**
@@ -25,42 +24,39 @@ public class Backend {
     private static final int LIMIT = 25;
 
     private final List<PostModel> mLstPostsModel;
-    private PostAdapter mAdapter;
+
+    private Context mContext;
 
     private Backend() {
         mLstPostsModel = new ArrayList<>();
+    }
+
+    public void init(Context context) {
+        mContext = context.getApplicationContext();
     }
 
     public List<PostModel> getLst() {
         return mLstPostsModel;
     }
 
-    public void setAdapter(PostAdapter adapter) {
-        mAdapter = adapter;
-    }
-
-    public void getTopPosts() {
+    public void getTopPosts(final PostsIteratorListener listener) {
         new GetTopPostsTask() {
             @Override
             void onError() {
-                /* Trigger swipeContainer.setRefreshing(false); */
-                if (mAdapter != null) {
-                    showNoConnectionDialog();
-                    mAdapter.notifyDataSetChanged();
-                }
+                showNoConnectionDialog();
+                listener.nextPosts();
             }
 
             @Override
             void onSuccess(Listing result) {
                 mLstPostsModel.clear();
                 mLstPostsModel.addAll(result.getLstPostsModel());
-                if (mAdapter != null)
-                    mAdapter.notifyDataSetChanged();
+                listener.nextPosts();
             }
         };
     }
 
-    public void getNextTopPosts() {
+    public void getNextTopPosts(final PostsIteratorListener listener) {
         String after = null;
 
         if (!mLstPostsModel.isEmpty())
@@ -69,32 +65,27 @@ public class Backend {
         new GetTopPostsTask(LIMIT, after) {
             @Override
             void onError() {
-                /* Trigger swipeContainer.setRefreshing(false); */
-                if (mAdapter != null) {
-                    showNoConnectionDialog();
-                    mAdapter.notifyDataSetChanged();
-                }
+                showNoConnectionDialog();
+                listener.nextPosts();
             }
 
             @Override
             void onSuccess(Listing result) {
                 mLstPostsModel.addAll(result.getLstPostsModel());
-                if (mAdapter != null)
-                    mAdapter.notifyDataSetChanged();
+                listener.nextPosts();
             }
         };
     }
 
     private void showNoConnectionDialog() {
-        Context context = mAdapter.getContext();
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
 
         // Set Title
-        alertDialogBuilder.setTitle(context.getString(R.string.no_internet_connection));
+        alertDialogBuilder.setTitle(mContext.getString(R.string.no_internet_connection));
 
         // Set Dialog message
         alertDialogBuilder
-                .setMessage(context.getString(R.string.unable_to_conn_reddit))
+                .setMessage(mContext.getString(R.string.unable_to_conn_reddit))
                 .setNeutralButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

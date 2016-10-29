@@ -11,13 +11,19 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import java.util.List;
+
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
+import ar.edu.unc.famaf.redditreader.backend.PostsIteratorListener;
+import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class NewsActivityFragment extends Fragment {
+public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
+    private SwipeRefreshLayout swipeContainer;
+    private PostAdapter adapter;
 
     public NewsActivityFragment() {
     }
@@ -27,13 +33,14 @@ public class NewsActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        final SwipeRefreshLayout swipeContainer =
-                (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        Backend.getInstance().init(this.getContext());
+
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Backend.getInstance().getTopPosts();
+                Backend.getInstance().getTopPosts(NewsActivityFragment.this);
             }
         });
 
@@ -45,21 +52,12 @@ public class NewsActivityFragment extends Fragment {
                 R.color.flairPress2,
                 R.color.flairPress1);
 
-        PostAdapter adapter = new PostAdapter(this.getContext(), R.layout.post_row,
-                Backend.getInstance().getLst()) {
-            @Override
-            public void notifyDataSetChanged() {
-                super.notifyDataSetChanged();
-                swipeContainer.setRefreshing(false);
-            }
-        };
-
-        Backend.getInstance().setAdapter(adapter);
+        adapter = new PostAdapter(this.getContext(), R.layout.post_row, Backend.getInstance().getLst());
 
         final ListView PostsLV = (ListView) view.findViewById(R.id.postsListView);
 
         if (Backend.getInstance().getLst().isEmpty()) {
-            Backend.getInstance().getTopPosts();
+            Backend.getInstance().getTopPosts(this);
             swipeContainer.setRefreshing(true);
         } else {
             PostsLV.setLayoutAnimation(null);
@@ -94,7 +92,7 @@ public class NewsActivityFragment extends Fragment {
                         PostsLV.removeFooterView(progressBarFooter);
                     }
                 } else if (totalItemCount - visibleItemCount <= firstVisibleItem + THRESHOLD) {
-                    Backend.getInstance().getNextTopPosts();
+                    Backend.getInstance().getNextTopPosts(NewsActivityFragment.this);
                     loading = true;
                     PostsLV.addFooterView(progressBarFooter);
                 }
@@ -102,5 +100,15 @@ public class NewsActivityFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void nextPosts() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+
+        if (swipeContainer != null) {
+            swipeContainer.setRefreshing(false);
+        }
     }
 }
