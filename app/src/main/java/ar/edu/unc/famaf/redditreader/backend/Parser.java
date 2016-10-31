@@ -38,7 +38,9 @@ class Parser {
         if (reader.hasNext()) {
             if (reader.nextName().equals("kind") && reader.nextString().equals("Listing")) {
                 if (reader.hasNext() && reader.nextName().equals("data")) {
-                    return readListingData(reader);
+                    Listing result = readListingData(reader);
+                    reader.endObject();
+                    return result;
                 }
             }
         }
