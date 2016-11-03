@@ -8,8 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import ar.edu.unc.famaf.redditreader.R;
@@ -66,36 +64,6 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
             PostsLV.addFooterView(new View(this.getContext()));
         }
         PostsLV.setAdapter(adapter);
-
-        final LinearLayout progressBarFooter = (LinearLayout) getActivity().getLayoutInflater().
-                inflate(R.layout.progress_bar_footer, null, false);
-
-        PostsLV.setOnScrollListener(new AbsListView.OnScrollListener() {
-            private static final int THRESHOLD = 5;
-            private int previousTotal = 0;
-            private boolean loading = true;
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                                 int totalItemCount) {
-                if (loading) {
-                    if (Math.abs(totalItemCount - previousTotal) >= THRESHOLD) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                        PostsLV.removeFooterView(progressBarFooter);
-                    }
-                } else if (totalItemCount - visibleItemCount <= firstVisibleItem + THRESHOLD) {
-                    Backend.getInstance().getNextTopPosts(mContext, NewsActivityFragment.this);
-                    loading = true;
-                    PostsLV.addFooterView(progressBarFooter);
-                }
-            }
-        });
 
         return view;
     }
