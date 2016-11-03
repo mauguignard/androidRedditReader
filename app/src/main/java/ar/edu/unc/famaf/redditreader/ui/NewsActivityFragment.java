@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -30,14 +31,14 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        Backend.getInstance().init(this.getContext());
+        final Context mContext = this.getContext();
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Backend.getInstance().getTopPosts(NewsActivityFragment.this);
+                Backend.getInstance().getTopPosts(mContext, NewsActivityFragment.this);
             }
         });
 
@@ -54,7 +55,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         final ListView PostsLV = (ListView) view.findViewById(R.id.postsListView);
 
         if (Backend.getInstance().getLst().isEmpty()) {
-            Backend.getInstance().getTopPosts(this);
+            Backend.getInstance().getTopPosts(mContext, this);
             swipeContainer.setRefreshing(true);
         } else {
             PostsLV.setLayoutAnimation(null);
@@ -89,7 +90,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
                         PostsLV.removeFooterView(progressBarFooter);
                     }
                 } else if (totalItemCount - visibleItemCount <= firstVisibleItem + THRESHOLD) {
-                    Backend.getInstance().getNextTopPosts(NewsActivityFragment.this);
+                    Backend.getInstance().getNextTopPosts(mContext, NewsActivityFragment.this);
                     loading = true;
                     PostsLV.addFooterView(progressBarFooter);
                 }

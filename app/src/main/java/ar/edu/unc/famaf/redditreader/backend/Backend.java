@@ -24,26 +24,20 @@ public class Backend {
 
     private final List<PostModel> mLstPostsModel;
 
-    private Context mContext;
-
     private Backend() {
         mLstPostsModel = new ArrayList<>();
-    }
-
-    public void init(Context context) {
-        mContext = context.getApplicationContext();
     }
 
     public List<PostModel> getLst() {
         return mLstPostsModel;
     }
 
-    public void getTopPosts(final PostsIteratorListener listener) {
+    public void getTopPosts(final Context context, final PostsIteratorListener listener) {
         new GetTopPostsTask() {
             @Override
             void onError() {
-                Toast toast = Toast.makeText(mContext,
-                        mContext.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(context,
+                        context.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
                 toast.show();
                 listener.nextPosts();
             }
@@ -57,7 +51,7 @@ public class Backend {
         };
     }
 
-    public void getNextTopPosts(final PostsIteratorListener listener) {
+    public void getNextTopPosts(final Context context, final PostsIteratorListener listener) {
         String after = null;
 
         if (!mLstPostsModel.isEmpty())
@@ -66,8 +60,8 @@ public class Backend {
         new GetTopPostsTask(LIMIT, after) {
             @Override
             void onError() {
-                Toast toast = Toast.makeText(mContext,
-                        mContext.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(context,
+                        context.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
                 toast.show();
                 listener.nextPosts();
             }
