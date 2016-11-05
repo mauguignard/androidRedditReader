@@ -20,7 +20,7 @@ public class Backend {
         return ourInstance;
     }
 
-    private static final int LIMIT = 25;
+    private static final int LIMIT = 50;
 
     private final List<PostModel> mLstPostsModel;
 
@@ -33,41 +33,25 @@ public class Backend {
     }
 
     public void getTopPosts(final Context context, final PostsIteratorListener listener) {
-        new GetTopPostsTask() {
+        new GetTopPostsTask(LIMIT) {
             @Override
             void onError() {
-                Toast toast = Toast.makeText(context,
-                        context.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
-                toast.show();
-                listener.nextPosts();
+                Listing result = RedditDB.getPostsFromDB(context, 0, LIMIT);
+
+                if (result.getLstPostsModel().size() != 0) {
+                    onSuccess(result);
+                } else {
+                    Toast toast = Toast.makeText(context,
+                            context.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
+                    toast.show();
+                    listener.nextPosts();
+                }
             }
 
             @Override
             void onSuccess(Listing result) {
+                RedditDB.savePostsToDB(context, result, LIMIT);
                 mLstPostsModel.clear();
-                mLstPostsModel.addAll(result.getLstPostsModel());
-                listener.nextPosts();
-            }
-        };
-    }
-
-    public void getNextTopPosts(final Context context, final PostsIteratorListener listener) {
-        String after = null;
-
-        if (!mLstPostsModel.isEmpty())
-            after = mLstPostsModel.get(mLstPostsModel.size() - 1).getName();
-
-        new GetTopPostsTask(LIMIT, after) {
-            @Override
-            void onError() {
-                Toast toast = Toast.makeText(context,
-                        context.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
-                toast.show();
-                listener.nextPosts();
-            }
-
-            @Override
-            void onSuccess(Listing result) {
                 mLstPostsModel.addAll(result.getLstPostsModel());
                 listener.nextPosts();
             }

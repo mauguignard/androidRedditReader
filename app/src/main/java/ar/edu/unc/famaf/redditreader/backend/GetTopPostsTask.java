@@ -9,8 +9,10 @@ import ar.edu.unc.famaf.redditreader.model.Listing;
 abstract class GetTopPostsTask extends GetPostsTask {
     private static final String TOP_POSTS_URL = "https://www.reddit.com/top/.json";
 
-    GetTopPostsTask() {
-        super.execute(TOP_POSTS_URL);
+    GetTopPostsTask(int limit) {
+        String url = TOP_POSTS_URL + "?&limit=" + Integer.toString(limit);
+
+        super.execute(url);
     }
 
     GetTopPostsTask(int limit, String after) {
