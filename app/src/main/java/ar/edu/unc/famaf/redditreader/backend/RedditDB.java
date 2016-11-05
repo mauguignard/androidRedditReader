@@ -97,6 +97,8 @@ class RedditDB {
                 + "SELECT " + RedditDBHelper.POST_TABLE_ID + " FROM " + RedditDBHelper.POST_TABLE
                 + " ORDER BY " + RedditDBHelper.POST_TABLE_ID + " DESC LIMIT " + limit + ");";
 
+        db.rawQuery(delQuery, null);
+
 
         db.setTransactionSuccessful();
         db.endTransaction();
