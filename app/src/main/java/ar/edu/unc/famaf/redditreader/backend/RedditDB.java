@@ -80,7 +80,7 @@ class RedditDB {
             values.put(RedditDBHelper.POST_TABLE_OVER18, post.isOver18() ? 1 : 0);
             values.put(RedditDBHelper.POST_TABLE_THUMBNAIL, post.getThumbnail());
             values.put(RedditDBHelper.POST_TABLE_PERMALINK, post.getPermalink());
-            values.put(RedditDBHelper.POST_TABLE_CREATED, post.getCreated());
+            values.put(RedditDBHelper.POST_TABLE_CREATED, post.getCreated() / 1000);
             values.put(RedditDBHelper.POST_TABLE_LINK_FLAIR_TEXT, post.getLinkFlairText());
             values.put(RedditDBHelper.POST_TABLE_URL, post.getURL());
             values.put(RedditDBHelper.POST_TABLE_TITLE, post.getTitle());
@@ -91,6 +91,9 @@ class RedditDB {
             db.insert(RedditDBHelper.POST_TABLE, null, values);
         }
 
+        db.setTransactionSuccessful();
+        db.endTransaction();
+
         /* Remove old Posts (Limit max number of items in table) */
         String delQuery = "DELETE FROM " + RedditDBHelper.POST_TABLE + " WHERE "
                 + RedditDBHelper.POST_TABLE_ID + " NOT IN ("
@@ -99,9 +102,6 @@ class RedditDB {
 
         db.rawQuery(delQuery, null);
 
-
-        db.setTransactionSuccessful();
-        db.endTransaction();
         db.close();
     }
 }
