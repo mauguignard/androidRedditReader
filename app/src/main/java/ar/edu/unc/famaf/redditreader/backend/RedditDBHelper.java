@@ -25,6 +25,7 @@ class RedditDBHelper extends SQLiteOpenHelper {
     static final String POST_TABLE_SCORE= "score";
     static final String POST_TABLE_OVER18 = "over18";
     static final String POST_TABLE_THUMBNAIL = "thumbnail";
+    static final String POST_TABLE_THUMBNAIL_FILE = "thumbnail_file";
     static final String POST_TABLE_PERMALINK = "permalink";
     static final String POST_TABLE_CREATED = "created";
     static final String POST_TABLE_LINK_FLAIR_TEXT = "link_flair_text";
@@ -59,7 +60,8 @@ class RedditDBHelper extends SQLiteOpenHelper {
                 + POST_TABLE_TITLE + " text not null,"
                 + POST_TABLE_NO_COMMENTS + " integer,"
                 + POST_TABLE_DOWNS + " integer,"
-                + POST_TABLE_UPS + " integer" + ")";
+                + POST_TABLE_UPS + " integer,"
+                + POST_TABLE_THUMBNAIL_FILE + " blob" + ")";
         db.execSQL(createSentence);
 
         Log.i(LOG_TAG, "Database created.");
