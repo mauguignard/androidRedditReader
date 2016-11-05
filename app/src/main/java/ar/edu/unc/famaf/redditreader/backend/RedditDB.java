@@ -18,7 +18,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
  */
 
 class RedditDB {
-    public static Listing getPostsFromDB(Context context, int from, int limit) {
+    static Listing getPostsFromDB(Context context, int from, int limit) {
         RedditDBHelper dbHelper = new RedditDBHelper(context, BuildConfig.VERSION_CODE);
 
         List<PostModel> result = new ArrayList<>();
@@ -55,11 +55,12 @@ class RedditDB {
         }
 
         cursor.close();
+        db.close();
 
         return new Listing(result, null, null);
     }
 
-    public static void savePostsToDB(Context context, Listing listing) {
+    static void savePostsToDB(Context context, Listing listing, int limit) {
         RedditDBHelper dbHelper = new RedditDBHelper(context, BuildConfig.VERSION_CODE);
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -90,18 +91,15 @@ class RedditDB {
             db.insert(RedditDBHelper.POST_TABLE, null, values);
         }
 
-        /* Remove old Posts (Limit to the last mMaxPosts)
+        /* Remove old Posts (Limit max number of items in table) */
         String delQuery = "DELETE FROM " + RedditDBHelper.POST_TABLE + " WHERE "
                 + RedditDBHelper.POST_TABLE_ID + " NOT IN ("
                 + "SELECT " + RedditDBHelper.POST_TABLE_ID + " FROM " + RedditDBHelper.POST_TABLE
-                + " ORDER BY " + RedditDBHelper.POST_TABLE_ID + " DESC LIMIT " + mMaxPosts + ");";*/
+                + " ORDER BY " + RedditDBHelper.POST_TABLE_ID + " DESC LIMIT " + limit + ");";
 
-        String delQuery = "DELETE FROM " + RedditDBHelper.POST_TABLE + ";";
-
-        Log.i("SQLITE", "Executed: " + delQuery);
-        db.rawQuery(delQuery, null);
 
         db.setTransactionSuccessful();
         db.endTransaction();
+        db.close();
     }
 }

@@ -16,8 +16,7 @@ class RedditDBHelper extends SQLiteOpenHelper {
 
     static final String POST_TABLE = "post";
 
-    private static final String POST_TABLE_ID = "_id";
-
+    static final String POST_TABLE_ID = "_id";
     static final String POST_TABLE_DOMAIN = "domain";
     static final String POST_TABLE_SUBREDDIT = "subreddit";
     static final String POST_TABLE_GILDED = "gilded";
