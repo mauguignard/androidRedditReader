@@ -214,7 +214,7 @@ public class BitmapLoader {
             }
 
             if (result == null) {
-                Log.e(LOG_TAG, "Image is null!");
+                Log.e(LOG_TAG, "Image could not be downloaded.");
             } else {
                 ImageView imageView = mImageViewReference.get();
                 if (imageView != null) {
