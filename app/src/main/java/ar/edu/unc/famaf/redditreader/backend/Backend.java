@@ -39,13 +39,15 @@ public class Backend {
                 Listing result = RedditDB.getPostsFromDB(context, 0, LIMIT);
 
                 if (result.getLstPostsModel().size() != 0) {
-                    onSuccess(result);
+                    mLstPostsModel.clear();
+                    mLstPostsModel.addAll(result.getLstPostsModel());
                 } else {
                     Toast toast = Toast.makeText(context,
                             context.getString(R.string.no_internet_connection), Toast.LENGTH_LONG);
                     toast.show();
-                    listener.nextPosts();
                 }
+
+                listener.nextPosts();
             }
 
             @Override
