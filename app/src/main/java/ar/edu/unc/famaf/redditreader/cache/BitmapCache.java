@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
-import ar.edu.unc.famaf.redditreader.backend.RedditDB;
+import ar.edu.unc.famaf.redditreader.backend.RedditDBHelper;
 
 /**
  * Created by mauguignard on 10/8/16.
@@ -35,21 +35,25 @@ public class BitmapCache {
         };
     }
 
+    public void initDiskCache(Context context) {
+        RedditDBHelper.init(context);
+    }
+
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             mMemoryCache.put(key, bitmap);
         }
     }
 
-    public void addBitmapToDiskCache(Context context, String key, Bitmap bitmap) {
-        RedditDB.saveThumbnailFileToDB(context, key, bitmap);
+    public void addBitmapToDiskCache(String key, Bitmap bitmap) {
+        RedditDBHelper.getInstance().saveThumbnailFileToDB(key, bitmap);
     }
 
     public Bitmap getBitmapFromMemCache(String key) {
         return mMemoryCache.get(key);
     }
 
-    public Bitmap getBitmapFromDiskCache(Context context, String key) {
-        return RedditDB.getThumbnailFileFromDB(context, key);
+    public Bitmap getBitmapFromDiskCache(String key) {
+        return RedditDBHelper.getInstance().getThumbnailFileFromDB(key);
     }
 }

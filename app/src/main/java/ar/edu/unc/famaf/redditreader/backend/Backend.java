@@ -36,7 +36,7 @@ public class Backend {
         new GetTopPostsTask(LIMIT) {
             @Override
             void onError() {
-                Listing result = RedditDB.getPostsFromDB(context, 0, LIMIT);
+                Listing result = RedditDBHelper.getInstance().getPostsFromDB(0, LIMIT);
 
                 if (result.getLstPostsModel().size() != 0) {
                     mLstPostsModel.clear();
@@ -52,7 +52,7 @@ public class Backend {
 
             @Override
             void onSuccess(Listing result) {
-                RedditDB.savePostsToDB(context, result, LIMIT);
+                RedditDBHelper.getInstance().savePostsToDB(result, LIMIT);
                 mLstPostsModel.clear();
                 mLstPostsModel.addAll(result.getLstPostsModel());
                 listener.nextPosts();
