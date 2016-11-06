@@ -7,9 +7,9 @@ import java.util.List;
  */
 
 public class Listing {
-    private List<PostModel> mLstPostsModel;
-    private String mAfter;
-    private String mBefore;
+    private final List<PostModel> mLstPostsModel;
+    private final String mAfter;
+    private final String mBefore;
 
     public Listing(List<PostModel> lstPostsModel, String after, String before) {
         mLstPostsModel = lstPostsModel;

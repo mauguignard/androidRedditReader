@@ -11,7 +11,6 @@ import ar.edu.unc.famaf.redditreader.backend.RedditDBHelper;
  * Code from: https://developer.android.com/training/displaying-bitmaps/cache-bitmap.html
  */
 public class BitmapCache {
-    private static final String LOG_TAG = "BitmapCache";
     private static final BitmapCache ourInstance = new BitmapCache();
 
     public static BitmapCache getInstance() {

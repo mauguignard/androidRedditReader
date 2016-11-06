@@ -102,7 +102,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
 
         List<PostModel> result = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + POST_TABLE, null);
 
         // Loop throw all rows until limit
         if (cursor.moveToPosition(from)) {
@@ -145,34 +145,34 @@ public class RedditDBHelper extends SQLiteOpenHelper {
         for (PostModel post : listing.getLstPostsModel()) {
 
             ContentValues values = new ContentValues();
-            values.put(RedditDBHelper.POST_TABLE_DOMAIN, post.getDomain());
-            values.put(RedditDBHelper.POST_TABLE_SUBREDDIT, post.getSubreddit());
-            values.put(RedditDBHelper.POST_TABLE_GILDED, post.getGilded());
-            values.put(RedditDBHelper.POST_TABLE_AUTHOR, post.getAuthor());
-            values.put(RedditDBHelper.POST_TABLE_NAME, post.getName());
-            values.put(RedditDBHelper.POST_TABLE_SCORE, post.getScore());
-            values.put(RedditDBHelper.POST_TABLE_OVER18, post.isOver18() ? 1 : 0);
-            values.put(RedditDBHelper.POST_TABLE_THUMBNAIL, post.getThumbnail());
-            values.put(RedditDBHelper.POST_TABLE_PERMALINK, post.getPermalink());
-            values.put(RedditDBHelper.POST_TABLE_CREATED, post.getCreated() / 1000);
-            values.put(RedditDBHelper.POST_TABLE_LINK_FLAIR_TEXT, post.getLinkFlairText());
-            values.put(RedditDBHelper.POST_TABLE_URL, post.getURL());
-            values.put(RedditDBHelper.POST_TABLE_TITLE, post.getTitle());
-            values.put(RedditDBHelper.POST_TABLE_NO_COMMENTS, post.getNoComments());
-            values.put(RedditDBHelper.POST_TABLE_DOWNS, post.getDowns());
-            values.put(RedditDBHelper.POST_TABLE_UPS, post.getUps());
+            values.put(POST_TABLE_DOMAIN, post.getDomain());
+            values.put(POST_TABLE_SUBREDDIT, post.getSubreddit());
+            values.put(POST_TABLE_GILDED, post.getGilded());
+            values.put(POST_TABLE_AUTHOR, post.getAuthor());
+            values.put(POST_TABLE_NAME, post.getName());
+            values.put(POST_TABLE_SCORE, post.getScore());
+            values.put(POST_TABLE_OVER18, post.isOver18() ? 1 : 0);
+            values.put(POST_TABLE_THUMBNAIL, post.getThumbnail());
+            values.put(POST_TABLE_PERMALINK, post.getPermalink());
+            values.put(POST_TABLE_CREATED, post.getCreated() / 1000);
+            values.put(POST_TABLE_LINK_FLAIR_TEXT, post.getLinkFlairText());
+            values.put(POST_TABLE_URL, post.getURL());
+            values.put(POST_TABLE_TITLE, post.getTitle());
+            values.put(POST_TABLE_NO_COMMENTS, post.getNoComments());
+            values.put(POST_TABLE_DOWNS, post.getDowns());
+            values.put(POST_TABLE_UPS, post.getUps());
 
-            db.insert(RedditDBHelper.POST_TABLE, null, values);
+            db.insert(POST_TABLE, null, values);
         }
 
         db.setTransactionSuccessful();
         db.endTransaction();
 
         /* Remove old Posts (Limit max number of items in table) */
-        String delQuery = "DELETE FROM " + RedditDBHelper.POST_TABLE + " WHERE "
-                + RedditDBHelper.POST_TABLE_ID + " NOT IN ("
-                + "SELECT " + RedditDBHelper.POST_TABLE_ID + " FROM " + RedditDBHelper.POST_TABLE
-                + " ORDER BY " + RedditDBHelper.POST_TABLE_ID + " DESC LIMIT " + limit + ");";
+        String delQuery = "DELETE FROM " + POST_TABLE + " WHERE "
+                + POST_TABLE_ID + " NOT IN ("
+                + "SELECT " + POST_TABLE_ID + " FROM " + POST_TABLE
+                + " ORDER BY " + POST_TABLE_ID + " DESC LIMIT " + limit + ");";
 
         db.rawQuery(delQuery, null);
 
@@ -183,9 +183,9 @@ public class RedditDBHelper extends SQLiteOpenHelper {
 
         Bitmap result = null;
 
-        Cursor cursor = db.rawQuery("SELECT " + RedditDBHelper.POST_TABLE_THUMBNAIL_FILE +
-                " FROM " + RedditDBHelper.POST_TABLE + " WHERE " +
-                RedditDBHelper.POST_TABLE_THUMBNAIL + " = '" + key + "'", null);
+        Cursor cursor = db.rawQuery("SELECT " + POST_TABLE_THUMBNAIL_FILE +
+                " FROM " + POST_TABLE + " WHERE " +
+                POST_TABLE_THUMBNAIL + " = '" + key + "'", null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -207,9 +207,9 @@ public class RedditDBHelper extends SQLiteOpenHelper {
         byte[] byte_array = stream.toByteArray();
 
         ContentValues values = new ContentValues();
-        values.put(RedditDBHelper.POST_TABLE_THUMBNAIL_FILE, byte_array);
+        values.put(POST_TABLE_THUMBNAIL_FILE, byte_array);
 
-        db.update(RedditDBHelper.POST_TABLE, values, RedditDBHelper.POST_TABLE_THUMBNAIL + "= ?",
+        db.update(POST_TABLE, values, POST_TABLE_THUMBNAIL + "= ?",
                 new String[]{key});
     }
 }

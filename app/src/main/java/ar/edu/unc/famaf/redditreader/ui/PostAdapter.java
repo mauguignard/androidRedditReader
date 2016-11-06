@@ -22,7 +22,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 /**
  * Created by mauguignard on 9/20/16.
  */
-public class PostAdapter extends ArrayAdapter<PostModel> {
+class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> mLstPostsModel = null;
     private final Context context;
 
