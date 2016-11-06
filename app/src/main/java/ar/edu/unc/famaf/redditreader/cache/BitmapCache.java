@@ -2,11 +2,9 @@ package ar.edu.unc.famaf.redditreader.cache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.util.LruCache;
 
-import java.io.File;
+import ar.edu.unc.famaf.redditreader.backend.RedditDB;
 
 /**
  * Created by mauguignard on 10/8/16.
@@ -21,13 +19,6 @@ public class BitmapCache {
     }
 
     private final LruCache<String, Bitmap> mMemoryCache;
-
-    private DiskLruCache<Bitmap> mDiskLruCache;
-    private final Object mDiskCacheLock = new Object();
-    private boolean mDiskCacheStarting = true;
-    private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
-    private static final String DISK_CACHE_SUBDIR = "thumbnails";
-    private static final long DISK_CACHE_MAX_TIME = 7 * 24 * 60 * 60 * 1000L; // One week
 
     private BitmapCache() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
@@ -44,66 +35,21 @@ public class BitmapCache {
         };
     }
 
-    public void initDiskCache(Context context) {
-        // Initialize disk cache on background thread
-        if (mDiskLruCache == null) {
-            File cacheDir = getDiskCacheDir(context, DISK_CACHE_SUBDIR);
-            new InitDiskCacheTask().execute(cacheDir);
-        }
-    }
-
-    private class InitDiskCacheTask extends AsyncTask<File, Void, Void> {
-        @Override
-        protected Void doInBackground(File... params) {
-            synchronized (mDiskCacheLock) {
-                File cacheDir = params[0];
-                mDiskLruCache = new DiskLruCache<>(
-                        DISK_CACHE_SIZE, cacheDir, new BitmapCachePolicy(), DISK_CACHE_MAX_TIME);
-                mDiskCacheStarting = false; // Finished initialization
-                mDiskCacheLock.notifyAll(); // Wake any waiting threads
-            }
-            return null;
-        }
-    }
-
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             mMemoryCache.put(key, bitmap);
         }
     }
 
-    public void addBitmapToDiskCache(String key, Bitmap bitmap) {
-        if (mDiskLruCache != null && mDiskLruCache.get(key) == null) {
-                if (!mDiskLruCache.put(key, bitmap))
-                    Log.e(LOG_TAG, "Unable to add bitmap to DiskLruCache");
-        }
+    public void addBitmapToDiskCache(Context context, String key, Bitmap bitmap) {
+        RedditDB.saveThumbnailFileToDB(context, key, bitmap);
     }
 
     public Bitmap getBitmapFromMemCache(String key) {
         return mMemoryCache.get(key);
     }
 
-    public Bitmap getBitmapFromDiskCache(String key) {
-        synchronized (mDiskCacheLock) {
-            // Wait while disk cache is started from background thread
-            while (mDiskCacheStarting) {
-                try {
-                    mDiskCacheLock.wait();
-                } catch (InterruptedException e) {
-                    Log.e(LOG_TAG, e.getMessage());
-                }
-            }
-            if (mDiskLruCache != null) {
-                return mDiskLruCache.get(key);
-            }
-        }
-        return null;
-    }
-
-    // Creates a unique subdirectory of the designated app cache directory.
-    private static File getDiskCacheDir(Context context, String uniqueName) {
-        final String cachePath = context.getCacheDir().getPath();
-
-        return new File(cachePath + File.separator + uniqueName);
+    public Bitmap getBitmapFromDiskCache(Context context, String key) {
+        return RedditDB.getThumbnailFileFromDB(context, key);
     }
 }

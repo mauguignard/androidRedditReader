@@ -122,7 +122,7 @@ public class BitmapLoader {
             HttpURLConnection connection = null;
             InputStream is = null;
 
-            Bitmap result = BitmapCache.getInstance().getBitmapFromDiskCache(url);
+            Bitmap result = BitmapCache.getInstance().getBitmapFromDiskCache(mContext, url);
             if (result == null) {
                 try {
                     switch (url) {
@@ -168,7 +168,7 @@ public class BitmapLoader {
                             result = getResizedBitmap(bmp);
 
                             // Save Bitmap to Disk Cache
-                            BitmapCache.getInstance().addBitmapToDiskCache(url, result);
+                            BitmapCache.getInstance().addBitmapToDiskCache(mContext, url, result);
 
                             // Apply some fancy rounded corners to Bitmap
                             result = getRoundedCornerBitmap(result);

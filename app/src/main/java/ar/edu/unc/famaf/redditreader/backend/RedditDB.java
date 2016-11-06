@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +19,12 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
  * Created by mauguignard on 10/28/16.
  */
 
-class RedditDB {
+public class RedditDB {
     static Listing getPostsFromDB(Context context, int from, int limit) {
         RedditDBHelper dbHelper = new RedditDBHelper(context, BuildConfig.VERSION_CODE);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         List<PostModel> result = new ArrayList<>();
-
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + RedditDBHelper.POST_TABLE, null);
 
@@ -62,7 +63,6 @@ class RedditDB {
 
     static void savePostsToDB(Context context, Listing listing, int limit) {
         RedditDBHelper dbHelper = new RedditDBHelper(context, BuildConfig.VERSION_CODE);
-
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Use transaction to speed up multiple insertions
@@ -101,6 +101,46 @@ class RedditDB {
                 + " ORDER BY " + RedditDBHelper.POST_TABLE_ID + " DESC LIMIT " + limit + ");";
 
         db.rawQuery(delQuery, null);
+
+        db.close();
+    }
+
+    public static Bitmap getThumbnailFileFromDB(Context context, String key) {
+        RedditDBHelper dbHelper = new RedditDBHelper(context, BuildConfig.VERSION_CODE);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Bitmap result = null;
+
+        Cursor cursor = db.rawQuery("SELECT " + RedditDBHelper.POST_TABLE_THUMBNAIL_FILE +
+                                    " FROM " + RedditDBHelper.POST_TABLE + " WHERE " +
+                                    RedditDBHelper.POST_TABLE_THUMBNAIL + " = '" + key + "'", null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            byte[] image =  cursor.getBlob(0);
+            if (image != null)
+                result = BitmapFactory.decodeByteArray(image, 0, image.length);
+        }
+
+        cursor.close();
+        db.close();
+
+        return result;
+    }
+
+    public static void saveThumbnailFileToDB(Context context, String key, Bitmap bitmap) {
+        RedditDBHelper dbHelper = new RedditDBHelper(context, BuildConfig.VERSION_CODE);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+        byte[] byte_array = stream.toByteArray();
+
+        ContentValues values = new ContentValues();
+        values.put(RedditDBHelper.POST_TABLE_THUMBNAIL_FILE, byte_array);
+
+        db.update(RedditDBHelper.POST_TABLE, values, RedditDBHelper.POST_TABLE_THUMBNAIL + "= ?",
+                new String[]{key});
 
         db.close();
     }
