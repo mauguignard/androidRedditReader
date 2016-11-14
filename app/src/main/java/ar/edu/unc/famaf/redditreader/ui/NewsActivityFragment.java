@@ -8,11 +8,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
+import ar.edu.unc.famaf.redditreader.backend.EndlessScrollListener;
 import ar.edu.unc.famaf.redditreader.backend.PostsIteratorListener;
+import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -20,6 +25,8 @@ import ar.edu.unc.famaf.redditreader.backend.PostsIteratorListener;
 public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
     private SwipeRefreshLayout swipeContainer;
     private PostAdapter adapter;
+    private ListView PostsLV;
+    private LinearLayout progressBarFooter;
 
     public NewsActivityFragment() {
     }
@@ -50,7 +57,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
 
         adapter = new PostAdapter(this.getContext(), R.layout.post_row, Backend.getInstance().getLst());
 
-        final ListView PostsLV = (ListView) view.findViewById(R.id.postsListView);
+        PostsLV = (ListView) view.findViewById(R.id.postsListView);
 
         if (Backend.getInstance().getLst().isEmpty()) {
             Backend.getInstance().getTopPosts(mContext, this);
@@ -65,16 +72,35 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         }
         PostsLV.setAdapter(adapter);
 
+        progressBarFooter = (LinearLayout) getActivity().getLayoutInflater().inflate(
+                R.layout.progress_bar_footer, null, false);
+
+        PostsLV.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                if (PostsLV.getFooterViewsCount() == 0)
+                    PostsLV.addFooterView(progressBarFooter);
+                Backend.getInstance().getNextPosts(page - 1, NewsActivityFragment.this);
+                return true;
+            }
+        });
+
         return view;
     }
 
-    public void nextPosts() {
-        if (adapter != null) {
+    /* Since the list related to the Adapter is in the Backend, there is no need to pass as
+     * parameter the list of new elements to this function, so 'posts' will always be null.
+     */
+    public void nextPosts(List<PostModel> posts) {
+        if (adapter != null)
             adapter.notifyDataSetChanged();
-        }
 
-        if (swipeContainer != null) {
+        if (swipeContainer != null)
             swipeContainer.setRefreshing(false);
-        }
+
+        if (PostsLV.getFooterViewsCount() > 0)
+            PostsLV.removeFooterView(progressBarFooter);
     }
 }

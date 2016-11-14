@@ -36,7 +36,8 @@ public class Backend {
         new GetTopPostsTask(LIMIT) {
             @Override
             void onError() {
-                Listing result = RedditDBHelper.getInstance().getPostsFromDB(0, LIMIT);
+                // Just return the first 5 posts
+                Listing result = RedditDBHelper.getInstance().getPostsFromDB(0, 5);
 
                 if (result.getLstPostsModel().size() != 0) {
                     mLstPostsModel.clear();
@@ -47,16 +48,25 @@ public class Backend {
                     toast.show();
                 }
 
-                listener.nextPosts();
+                listener.nextPosts(null);
             }
 
             @Override
             void onSuccess(Listing result) {
                 RedditDBHelper.getInstance().savePostsToDB(result, LIMIT);
                 mLstPostsModel.clear();
-                mLstPostsModel.addAll(result.getLstPostsModel());
-                listener.nextPosts();
+
+                // Just return the first 5 posts
+                mLstPostsModel.addAll(result.getLstPostsModel().subList(0, 5));
+                listener.nextPosts(null);
             }
         };
+    }
+
+    public void getNextPosts(int page, final PostsIteratorListener listener) {
+        // Get the next 5 posts starting at the element n°(page * 5) (if available)
+        Listing result = RedditDBHelper.getInstance().getPostsFromDB(page * 5, 5);
+        mLstPostsModel.addAll(result.getLstPostsModel());
+        listener.nextPosts(null);
     }
 }
