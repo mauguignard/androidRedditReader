@@ -137,7 +137,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     }
 
     void savePostsToDB(Listing listing, int limit) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
 
         // Use transaction to speed up multiple insertions
         db.beginTransaction();
