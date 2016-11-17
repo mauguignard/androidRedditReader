@@ -1,6 +1,5 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.Fragment;
@@ -58,7 +57,6 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
         final Context mContext = this.getContext();
-
 
         adapter = new PostAdapter(this.getContext(), R.layout.post_row, Backend.getInstance().getLst());
 

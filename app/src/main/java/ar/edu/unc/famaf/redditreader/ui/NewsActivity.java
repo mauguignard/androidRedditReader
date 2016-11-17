@@ -17,7 +17,8 @@ public class NewsActivity extends AppCompatActivity
         implements  NewsActivityFragment.OnPostItemSelectedListener {
 
     private static final int LOGIN_CODE = 2;
-    public final static String EMAIL_MESSAGE = "famaf.unc.edu.ar.activitiesassignment.EMAIL_MESSAGE";
+    public static final String EMAIL_MESSAGE = "famaf.unc.edu.ar.activitiesassignment.EMAIL_MESSAGE";
+    public static final String POST_EXTRA = "post_extra";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,5 +68,9 @@ public class NewsActivity extends AppCompatActivity
 
     public void onPostItemPicked(PostModel post) {
         Log.i("SELECTED ITEM", post.getTitle());
+
+        Intent i = new Intent(NewsActivity.this, NewsDetailActivity.class);
+        i.putExtra(POST_EXTRA, post);
+        startActivity(i);
     }
 }
