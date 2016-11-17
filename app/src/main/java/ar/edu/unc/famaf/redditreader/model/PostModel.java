@@ -1,9 +1,11 @@
 package ar.edu.unc.famaf.redditreader.model;
 
+import java.io.Serializable;
+
 /**
  * Created by mauguignard on 9/20/16.
  */
-public class PostModel {
+public class PostModel implements Serializable {
     private String mDomain;
     private String mSubreddit;
     private int mGilded;
