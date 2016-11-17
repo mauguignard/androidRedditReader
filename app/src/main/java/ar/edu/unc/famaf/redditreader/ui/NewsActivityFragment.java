@@ -1,12 +1,15 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -24,11 +27,29 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
     private static final int VISIBLE_THRESHOLD = 5;
 
+    private OnPostItemSelectedListener mCallback;
+
     private PostAdapter adapter;
     private ListView PostsLV;
     private LinearLayout progressBarFooter;
 
+    public interface OnPostItemSelectedListener {
+        void onPostItemPicked(PostModel post);
+    }
+
     public NewsActivityFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnPostItemSelectedListener) context;
+        } catch(ClassCastException e) {
+            Log.e("NewsActivityFragment", context.toString() +
+                    " must implement OnPostItemSelectedListener");
+        }
     }
 
     @Override
@@ -70,6 +91,13 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
                 Backend.getInstance().getNextPosts(page - 1, NewsActivityFragment.this);
 
                 return true;
+            }
+        });
+
+        PostsLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                mCallback.onPostItemPicked((PostModel) adapterView.getAdapter().getItem(position));
             }
         });
 

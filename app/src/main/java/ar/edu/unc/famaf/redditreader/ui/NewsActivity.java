@@ -11,8 +11,10 @@ import android.view.MenuItem;
 
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.cache.BitmapCache;
+import ar.edu.unc.famaf.redditreader.model.PostModel;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity
+        implements  NewsActivityFragment.OnPostItemSelectedListener {
 
     private static final int LOGIN_CODE = 2;
     public final static String EMAIL_MESSAGE = "famaf.unc.edu.ar.activitiesassignment.EMAIL_MESSAGE";
@@ -61,5 +63,9 @@ public class NewsActivity extends AppCompatActivity {
                 Log.i("LOGIN_UNSUCCESSFUL", "No user logged yet");
             }
         }
+    }
+
+    public void onPostItemPicked(PostModel post) {
+        Log.i("SELECTED ITEM", post.getTitle());
     }
 }
