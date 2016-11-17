@@ -174,8 +174,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
                 + "SELECT " + POST_TABLE_ID + " FROM " + POST_TABLE
                 + " ORDER BY " + POST_TABLE_ID + " DESC LIMIT " + limit + ");";
 
-        db.rawQuery(delQuery, null);
-
+        db.execSQL(delQuery);
     }
 
     public Bitmap getThumbnailFileFromDB(String key) {
