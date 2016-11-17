@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
     private static final int VISIBLE_THRESHOLD = 5;
 
-    private SwipeRefreshLayout swipeContainer;
     private PostAdapter adapter;
     private ListView PostsLV;
     private LinearLayout progressBarFooter;
@@ -40,38 +38,20 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
 
         final Context mContext = this.getContext();
 
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Backend.getInstance().getTopPosts(mContext, NewsActivityFragment.this);
-            }
-        });
-
-        swipeContainer.setColorSchemeResources(R.color.flairNoPress,
-                R.color.flairPress6,
-                R.color.flairPress5,
-                R.color.flairPress4,
-                R.color.flairPress3,
-                R.color.flairPress2,
-                R.color.flairPress1);
 
         adapter = new PostAdapter(this.getContext(), R.layout.post_row, Backend.getInstance().getLst());
 
         PostsLV = (ListView) view.findViewById(R.id.postsListView);
 
-        if (Backend.getInstance().getLst().isEmpty()) {
+        if (Backend.getInstance().getLst().isEmpty())
             Backend.getInstance().getTopPosts(mContext, this);
-            swipeContainer.setRefreshing(true);
-        } else {
+        else
             PostsLV.setLayoutAnimation(null);
-        }
 
         // Add dummy footer to avoid crash before API 19
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
             PostsLV.addFooterView(new View(this.getContext()));
-        }
+
         PostsLV.setAdapter(adapter);
 
         progressBarFooter = (LinearLayout) getActivity().getLayoutInflater().inflate(
@@ -104,9 +84,6 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
             adapter.notifyDataSetChanged();
             Backend.getInstance().setCurrentPage(adapter.getCount() / VISIBLE_THRESHOLD);
         }
-
-        if (swipeContainer != null)
-            swipeContainer.setRefreshing(false);
 
         if (PostsLV.getFooterViewsCount() > 0)
             PostsLV.removeFooterView(progressBarFooter);
