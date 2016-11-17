@@ -23,6 +23,8 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
  * A placeholder fragment containing a simple view.
  */
 public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
+    private static final int VISIBLE_THRESHOLD = 5;
+
     private SwipeRefreshLayout swipeContainer;
     private PostAdapter adapter;
     private ListView PostsLV;
@@ -75,7 +77,10 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         progressBarFooter = (LinearLayout) getActivity().getLayoutInflater().inflate(
                 R.layout.progress_bar_footer, null, false);
 
-        PostsLV.setOnScrollListener(new EndlessScrollListener() {
+        // Recover the current page from the previous application state
+        int currentPage = Backend.getInstance().getCurrentPage();
+
+        PostsLV.setOnScrollListener(new EndlessScrollListener(VISIBLE_THRESHOLD, currentPage) {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
@@ -83,6 +88,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
                 if (PostsLV.getFooterViewsCount() == 0)
                     PostsLV.addFooterView(progressBarFooter);
                 Backend.getInstance().getNextPosts(page - 1, NewsActivityFragment.this);
+
                 return true;
             }
         });
@@ -94,8 +100,10 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
      * parameter the list of new elements to this function, so 'posts' will always be null.
      */
     public void nextPosts(List<PostModel> posts) {
-        if (adapter != null)
+        if (adapter != null) {
             adapter.notifyDataSetChanged();
+            Backend.getInstance().setCurrentPage(adapter.getCount() / VISIBLE_THRESHOLD);
+        }
 
         if (swipeContainer != null)
             swipeContainer.setRefreshing(false);

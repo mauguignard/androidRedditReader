@@ -24,12 +24,23 @@ public class Backend {
 
     private final List<PostModel> mLstPostsModel;
 
+    private int mCurrentPage;
+
     private Backend() {
         mLstPostsModel = new ArrayList<>();
+        mCurrentPage = 0;
     }
 
     public List<PostModel> getLst() {
         return mLstPostsModel;
+    }
+
+    public int getCurrentPage() {
+        return mCurrentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        mCurrentPage = currentPage;
     }
 
     public void getTopPosts(final Context context, final PostsIteratorListener listener) {
@@ -67,6 +78,7 @@ public class Backend {
         // Get the next 5 posts starting at the element n°(page * 5) (if available)
         Listing result = RedditDBHelper.getInstance().getPostsFromDB(page * 5, 5);
         mLstPostsModel.addAll(result.getLstPostsModel());
+
         listener.nextPosts(null);
     }
 }
