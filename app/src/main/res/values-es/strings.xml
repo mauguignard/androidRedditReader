@@ -11,4 +11,5 @@
     <string name="no_comments">%1$d Comentarios</string>
     <string name="subreddit_by_author"><![CDATA[r/%1$s <font color=%2$s>por</font> %3$s]]></string>
     <string name="no_internet_connection">Sin conexión a Internet</string>
+    <string name="open_url">Abrir URL</string>
 </resources>

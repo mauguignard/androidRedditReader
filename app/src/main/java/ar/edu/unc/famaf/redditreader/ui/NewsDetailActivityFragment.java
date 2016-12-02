@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -26,8 +28,26 @@ import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 public class NewsDetailActivityFragment extends Fragment {
+    private OnURLButtonClickListener mCallback;
+
+    public interface OnURLButtonClickListener {
+        void onURLButtonClicked(String url);
+    }
+
     public NewsDetailActivityFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnURLButtonClickListener) context;
+        } catch(ClassCastException e) {
+            Log.e("NewsDetail", context.toString() +
+                    " must implement OnURLButtonClickListener");
+        }
     }
 
     @Override
@@ -38,7 +58,7 @@ public class NewsDetailActivityFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
 
-        PostModel post = (PostModel) intent.getSerializableExtra(NewsActivity.POST_EXTRA);
+        final PostModel post = (PostModel) intent.getSerializableExtra(NewsActivity.POST_EXTRA);
 
         TextView subredditByAuthorTV = (TextView) view.findViewById(R.id.postSubredditByAuthor);
         TextView gildedTV = (TextView) view.findViewById(R.id.postGilded);
@@ -48,6 +68,7 @@ public class NewsDetailActivityFragment extends Fragment {
         RelativeLayout previewRL = (RelativeLayout) view.findViewById(R.id.postPreview);
         final ImageView previewIV = (ImageView) view.findViewById(R.id.postPreviewIV);
         final ProgressBar previewPB = (ProgressBar) view.findViewById(R.id.postPreviewPB);
+        Button openURLBT = (Button) view.findViewById(R.id.url_button);
 
 
         String r = String.format(view.getContext().getResources().getString(R.string.subreddit_by_author),
@@ -119,6 +140,13 @@ public class NewsDetailActivityFragment extends Fragment {
             }.execute(post.getPreviewURL());
         else
             previewRL.setVisibility(View.GONE);
+
+        openURLBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallback.onURLButtonClicked(post.getURL());
+            }
+        });
 
         return view;
     }
