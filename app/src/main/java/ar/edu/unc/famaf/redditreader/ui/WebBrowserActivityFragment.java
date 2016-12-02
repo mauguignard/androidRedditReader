@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import ar.edu.unc.famaf.redditreader.R;
 
@@ -26,6 +27,7 @@ public class WebBrowserActivityFragment extends Fragment {
         String url = intent.getStringExtra(NewsDetailActivity.POST_URL_EXTRA);
 
         WebView webView = (WebView) view.findViewById(R.id.web_view);
+        webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
 
