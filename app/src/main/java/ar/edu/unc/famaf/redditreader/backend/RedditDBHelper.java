@@ -35,6 +35,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     private static final String POST_TABLE_NAME = "name";
     private static final String POST_TABLE_SCORE = "score";
     private static final String POST_TABLE_OVER18 = "over18";
+    private static final String POST_TABLE_PREVIEW_URL = "preview";
     private static final String POST_TABLE_THUMBNAIL = "thumbnail";
     private static final String POST_TABLE_THUMBNAIL_FILE = "thumbnail_file";
     private static final String POST_TABLE_PERMALINK = "permalink";
@@ -74,6 +75,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
                         + POST_TABLE_NAME + " text not null,"
                         + POST_TABLE_SCORE + " integer,"
                         + POST_TABLE_OVER18 + " integer,"
+                        + POST_TABLE_PREVIEW_URL + " text,"
                         + POST_TABLE_THUMBNAIL + " text not null,"
                         + POST_TABLE_PERMALINK + " text not null,"
                         + POST_TABLE_CREATED + " integer,"
@@ -116,15 +118,16 @@ public class RedditDBHelper extends SQLiteOpenHelper {
                 post.setName(cursor.getString(5));
                 post.setScore(cursor.getInt(6));
                 post.setOver18(cursor.getInt(7) != 0);
-                post.setThumbnail(cursor.getString(8));
-                post.setPermalink(cursor.getString(9));
-                post.setCreated(cursor.getLong(10));
-                post.setLinkFlairText(cursor.getString(11));
-                post.setURL(cursor.getString(12));
-                post.setTitle(cursor.getString(13));
-                post.setNoComments(cursor.getInt(14));
-                post.setDowns(cursor.getInt(15));
-                post.setUps(cursor.getInt(16));
+                post.setPreviewURL(cursor.getString(8));
+                post.setThumbnail(cursor.getString(9));
+                post.setPermalink(cursor.getString(10));
+                post.setCreated(cursor.getLong(11));
+                post.setLinkFlairText(cursor.getString(12));
+                post.setURL(cursor.getString(13));
+                post.setTitle(cursor.getString(14));
+                post.setNoComments(cursor.getInt(15));
+                post.setDowns(cursor.getInt(16));
+                post.setUps(cursor.getInt(17));
                 result.add(post);
                 cursor.moveToNext();
                 i++;
@@ -152,6 +155,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
             values.put(POST_TABLE_NAME, post.getName());
             values.put(POST_TABLE_SCORE, post.getScore());
             values.put(POST_TABLE_OVER18, post.isOver18() ? 1 : 0);
+            values.put(POST_TABLE_PREVIEW_URL, post.getPreviewURL());
             values.put(POST_TABLE_THUMBNAIL, post.getThumbnail());
             values.put(POST_TABLE_PERMALINK, post.getPermalink());
             values.put(POST_TABLE_CREATED, post.getCreated() / 1000);

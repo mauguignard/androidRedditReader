@@ -13,6 +13,7 @@ public class PostModel implements Serializable {
     private String mName;
     private int mScore;
     private boolean mOver18;
+    private String mPreviewURL;
     private String mThumbnail;
     private String mPermalink;
     private long mCreated;
@@ -77,6 +78,14 @@ public class PostModel implements Serializable {
 
     public void setOver18(boolean over18) {
         mOver18 = over18;
+    }
+
+    public String getPreviewURL() {
+        return mPreviewURL;
+    }
+
+    public void setPreviewURL(String url) {
+        mPreviewURL = url;
     }
 
     public String getThumbnail() {

@@ -135,6 +135,9 @@ class Parser {
                 case "over_18":
                     post.setOver18(reader.nextBoolean());
                     break;
+                case "preview":
+                    post.setPreviewURL(readPreviewURL(reader));
+                    break;
                 case "thumbnail":
                     post.setThumbnail(reader.nextString());
                     break;
@@ -173,6 +176,49 @@ class Parser {
         reader.endObject();
 
         return post;
+    }
+
+    private static String readPreviewURL(JsonReader reader) throws IOException, UnexpectedResponse {
+        String result = null;
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            switch (reader.nextName()) {
+                case "images":
+                    reader.beginArray();
+                    reader.beginObject();
+                    while (reader.hasNext()) {
+                        switch (reader.nextName()) {
+                            case "source":
+                                reader.beginObject();
+                                while (reader.hasNext()) {
+                                    switch (reader.nextName()) {
+                                        case "url":
+                                            result = reader.nextString();
+                                            break;
+                                        default:
+                                            reader.skipValue();
+                                            break;
+                                    }
+                                }
+                                reader.endObject();
+                                break;
+                            default:
+                                reader.skipValue();
+                                break;
+                        }
+                    }
+                    reader.endObject();
+                    reader.endArray();
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
+            }
+        }
+        reader.endObject();
+
+        return result;
     }
 
 }
